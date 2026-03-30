@@ -21,6 +21,8 @@ class Display
     uint8_t mAddress;           ///< The address of the screen (default is 0x3C, but if that doesn't work, try 0x3D)
     int8_t mOledReset;          ///< The reset pin for the screen (-1 for no reset pin)
 
+    uint8_t mPrintSize;         ///< The size at which the text is printed
+
   public:
     /**
      * @brief Constructs a Display object.
@@ -32,6 +34,7 @@ class Display
     Display(uint8_t width, uint8_t height, int8_t oledReset, uint8_t address=0x3C)
     : mScreenWidth(width), mScreenHeight(height), 
       mOledReset(oledReset), mAddress(address),
+      mPrintSize(2),
       mDisplay(Adafruit_SSD1306{width, height, &Wire, oledReset})
     {}
 
@@ -58,7 +61,20 @@ class Display
 
     /// @return The OLED reset pin (`-1` if there is none)
     int8_t getOledReset() const { return mOledReset; }
-    
+
+
+    /// @return The size of the text that is printed
+    /// @note Any size larger than 5 may cause the letters to be too big
+    uint8_t getPrintSize() const { return mPrintSize; }
+
+    /// @return  The width in pixels of a character
+    /// @note This assumes the default Adafruit character width (`x * 6`)
+    uint16_t getCharWidth() const { return mPrintSize * 6; }
+
+    /// @return  The height in pixels of a character
+    /// @note This assumes the default Adafruit character height (`x * 8`)
+    uint16_t getCharHeight() const { return mPrintSize * 8; }
+
 };
 
 

@@ -5,7 +5,7 @@
 
 
 /**
- * @brief A simple strinh wrapper class meant to be displayed to a screen.
+ * @brief A simple string wrapper class meant to be displayed to a screen.
  */
 class DisplayText
 {

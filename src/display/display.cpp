@@ -22,3 +22,9 @@ void Display::clear()
 {
   mDisplay.clearDisplay();
 }
+
+
+void Display::print(DisplayText text)
+{
+  uint8_t cursorY = 0;
+}

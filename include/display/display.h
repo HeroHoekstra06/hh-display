@@ -61,6 +61,13 @@ class Display
      */
     void clear();
 
+    /**
+     * @brief Prints a string to the screen
+     * @param text The string that will be printed
+     * @note If `Display::clear()` is not called, characters will overlap
+     */
+    void print(DisplayText text);
+
 
     // Getters
     /// @return The width of the screen in pixels.

@@ -12,7 +12,9 @@ class DisplayText
   private:
     const std::string mText;  ///< Stored text for later use.
     const char *mRawString;   ///< Stored text as a raw string.
+
     const uint16_t mLength;   ///< The size of the stored string.
+    uint16_t mCurrentPos;     ///< The current position for the `DisplayText::getLine()` function.
 
   public:
     /**
@@ -25,6 +27,15 @@ class DisplayText
     DisplayText(const std::string& text)
     : mText(text), mRawString(mText.c_str()), mLength(text.length())
     {}
+
+
+    /**
+     * @brief Gets a specific line to a buffer. Meant to be used in `while` loops
+     * @param buffer The memory address of a buffer to which the line will be send
+     * @param lineSize The amount of characters per line
+     * @return If this is the last step, or if there should be another loop
+     */
+    bool getLine(char*& buffer, uint16_t lineSize);
 
 
     // Getters

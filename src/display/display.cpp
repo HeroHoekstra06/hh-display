@@ -16,3 +16,9 @@ bool Display::start()
 
   return true;
 }
+
+
+void Display::clear()
+{
+  mDisplay.clearDisplay();
+}

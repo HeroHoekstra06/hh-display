@@ -56,6 +56,11 @@ class Display
     */
     bool start();
 
+    /**
+     * @brief Sets the display screen to black
+     */
+    void clear();
+
 
     // Getters
     /// @return The width of the screen in pixels.

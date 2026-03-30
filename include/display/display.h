@@ -49,6 +49,14 @@ class Display
     {}
 
 
+    /**
+     * @brief Starts the Adafruit display to be able to print
+     * @return If the screen was able to start
+     * @note This function should be called first, otherwise you will be calling a display that is not on
+    */
+    bool start();
+
+
     // Getters
     /// @return The width of the screen in pixels.
     uint8_t getScreenWidth() const { return mScreenWidth; }

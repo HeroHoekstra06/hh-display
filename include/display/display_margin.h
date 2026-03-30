@@ -50,6 +50,26 @@ class DisplayMargin
     : DisplayMargin(margin, margin, margin, margin)
     {}
 
+
+    // Getters
+    /// @return The left margin
+    int8_t getLeft() const { return mLeft; }
+
+    /// @return The top margin
+    int8_t getTop() const { return mTop; }
+
+    /// @return The right margin
+    int8_t getRight() const { return mRight; }
+
+    /// @return The bottom margin
+    int8_t getBottom() const { return mBottom; }
+
+    /// @return The sum of the left and right margin
+    int8_t getHorizontal() const { return mLeft + mRight; }
+
+    /// @return The sum of the top and bottom margin
+    int8_t getVertical() const { return mTop + mBottom; }
+
 };
 
 

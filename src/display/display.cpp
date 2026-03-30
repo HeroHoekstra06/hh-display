@@ -26,5 +26,16 @@ void Display::clear()
 
 void Display::print(DisplayText text)
 {
+  uint8_t maxCharsX = floor(getScreenWidth() / getCharWidth());
   uint8_t cursorY = 0;
+  char *buffer;
+
+  while (text.getLine(buffer, maxCharsX))
+  {
+    mDisplay.setCursor(0, cursorY);
+    mDisplay.print(buffer);
+    cursorY += getCharHeight();
+  }
+
+  mDisplay.display();
 }

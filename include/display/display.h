@@ -45,6 +45,20 @@ class Display
     : Display(width, height, -1, address)
     {}
 
+
+    // Getters
+    /// @return The width of the screen in pixels.
+    uint8_t getScreenWidth() const { return mScreenWidth; }
+
+    /// @return The height of the screen in pixels.
+    uint8_t getScreenHeight() const { return mScreenHeight; }
+
+    /// @return The memory address of the OLED display
+    uint8_t getAddress() const { return mAddress; }
+
+    /// @return The OLED reset pin (`-1` if there is none)
+    int8_t getOledReset() const { return mOledReset; }
+    
 };
 
 

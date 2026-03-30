@@ -64,16 +64,21 @@ class Display
 
 
     /// @return The size of the text that is printed
-    /// @note Any size larger than 5 may cause the letters to be too big
     uint8_t getPrintSize() const { return mPrintSize; }
 
-    /// @return  The width in pixels of a character
+    /// @return The width in pixels of a character
     /// @note This assumes the default Adafruit character width (`x * 6`)
     uint16_t getCharWidth() const { return mPrintSize * 6; }
 
-    /// @return  The height in pixels of a character
+    /// @return The height in pixels of a character
     /// @note This assumes the default Adafruit character height (`x * 8`)
     uint16_t getCharHeight() const { return mPrintSize * 8; }
+
+
+    // Setters
+    /// @param size Sets the text size of characters that are printed to the screen
+    /// @note Any size larger than 5 may cause the letters to be too big
+    void setPrintSize(uint8_t size) { mPrintSize = size; }
 
 };
 

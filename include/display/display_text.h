@@ -12,18 +12,30 @@ class DisplayText
   private:
     const std::string mText;  ///< Stored text for later use.
     const char *mRawString;   ///< Stored text as a raw string.
+    const uint16_t mLength;   ///< The size of the stored string.
 
   public:
     /**
      * @brief Constructs a DisplayText object from a standard string.
-     * * @param text The string to be stored and displayed.
+     * @param text The string to be stored and displayed.
      * @note Memory management and conversions are handled by the 
      * standard string library.
      * @see https://cplusplus.com/reference/string/string/
      */
     DisplayText(const std::string& text)
-    : mText(text), mRawString(mText.c_str())
+    : mText(text), mRawString(mText.c_str()), mLength(text.length())
     {}
+
+
+    // Getters
+    /// @return The stored string
+    const std::string& getText() const { return mText; }
+
+    /// @return The raw stored string
+    const char *getRawString() const { return mRawString; }
+
+    /// @return The amount of characters of the stored text
+    const uint16_t getLength() const { return mLength; }
 
 };
 

@@ -1,20 +1,21 @@
 #ifndef DISPLAY_TEXT_H
 #define DISPLAY_TEXT_H
 
-#include <Wire.h> // Include for String
+#include <string>
 
 
 /**
- * @brief A simple wrapper class for `Wire.h`'s `String` meant to be displayed on screens.
+ * @brief A simple strin wrapper class meant to be displayed to a screen.
  */
 class DisplayText
 {
   private:
-    const String mText; ///< Stored text to be displayed
+    const std::string mText;  ///< Stored text for later use.
+    const char *mRawString;   ///< Stored text as a raw string.
 
   public:
-    DisplayText(String text)
-      : mText(text)
+    DisplayText(std::string text)
+      : mText(text), mRawString(mText.c_str())
     {}
 
 };

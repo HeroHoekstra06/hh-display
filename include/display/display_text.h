@@ -5,7 +5,7 @@
 
 
 /**
- * @brief A simple strin wrapper class meant to be displayed to a screen.
+ * @brief A simple strinh wrapper class meant to be displayed to a screen.
  */
 class DisplayText
 {
@@ -14,8 +14,15 @@ class DisplayText
     const char *mRawString;   ///< Stored text as a raw string.
 
   public:
-    DisplayText(std::string text)
-      : mText(text), mRawString(mText.c_str())
+    /**
+     * @brief Constructs a DisplayText object from a standard string.
+     * * @param text The string to be stored and displayed.
+     * @note Memory management and conversions are handled by the 
+     * standard string library.
+     * @see https://cplusplus.com/reference/string/string/
+     */
+    DisplayText(const std::string& text)
+    : mText(text), mRawString(mText.c_str())
     {}
 
 };

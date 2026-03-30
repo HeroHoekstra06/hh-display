@@ -35,6 +35,16 @@ class Display
       mDisplay(Adafruit_SSD1306{width, height, &Wire, oledReset})
     {}
 
+    /**
+     * @brief Constructs a Display object with not reset pin (set to `-1`).
+     * @param width The width of the screen in pixels.
+     * @param height The height of the screen in pixels.
+     * @param address The memory address of the screen. Default is `0x3C`, but if that doesn't work try `0x3D`
+    */
+    Display(uint8_t width, uint8_t height, uint8_t address=0x3C)
+    : Display(width, height, -1, address)
+    {}
+
 };
 
 

@@ -6,6 +6,7 @@
 #include <Adafruit_SSD1306.h>
 
 #include "display/display_text.h"
+#include "display/display_margin.h"
 
 
 /**
@@ -22,6 +23,7 @@ class Display
     int8_t mOledReset;          ///< The reset pin for the screen (-1 for no reset pin)
 
     uint8_t mPrintSize;         ///< The size at which the text is printed
+    DisplayMargin mMargin;      ///< The margins which will leave a gap between the edge of the screen and the text
 
   public:
     /**
@@ -34,7 +36,7 @@ class Display
     Display(uint8_t width, uint8_t height, int8_t oledReset, uint8_t address=0x3C)
     : mScreenWidth(width), mScreenHeight(height), 
       mOledReset(oledReset), mAddress(address),
-      mPrintSize(2),
+      mPrintSize(2), mMargin(0),
       mDisplay(Adafruit_SSD1306{width, height, &Wire, oledReset})
     {}
 
@@ -94,11 +96,18 @@ class Display
     /// @note This assumes the default Adafruit character height (`x * 8`)
     uint16_t getCharHeight() const { return mPrintSize * 8; }
 
+    /// @return The margins which will leave a gap between the edge of the screen and the text
+    DisplayMargin& getMargin() { return mMargin; }
+
 
     // Setters
     /// @param size Sets the text size of characters that are printed to the screen
     /// @note Any size larger than 5 may cause the letters to be too big
     void setPrintSize(uint8_t size) { mPrintSize = size; }
+
+    /// @param margin Sets the margins of the screen
+    /// @note Any size larger than 5 may create too little room for characters
+    void setMargin(const DisplayMargin& margin) { mMargin = margin; }
 
 };
 

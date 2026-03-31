@@ -35,7 +35,7 @@ class DisplayText
      * @param lineSize The amount of characters per line
      * @return If this is the last step, or if there should be another loop
      */
-    bool getLine(char*& buffer, uint16_t lineSize);
+    bool getLine(char* buffer, uint16_t lineSize);
 
 
     // Getters

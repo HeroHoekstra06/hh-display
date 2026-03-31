@@ -1,25 +1,32 @@
 #include "display/display_text.h"
 
 
-bool DisplayText::getLine(char*& buffer, uint16_t lineSize)
+bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
 {
-  if (mCurrentPos >= mLength)
-  {
-    return false;
-  }
+  if (mCurrentPos >= mLength) return false;
 
-  buffer = const_cast<char*>(mRawString + mCurrentPos);
-  int start = mCurrentPos;
-
-  while (mCurrentPos < mLength)
+  uint16_t i = 0;
+  while (i < (bufferSize - 1) && mCurrentPos < mLength)
   {
-    if (mRawString[mCurrentPos] == '\n' || (mCurrentPos - start) == lineSize)
+    char c = mRawString[mCurrentPos];
+
+    if (c == '\n')
     {
       mCurrentPos++;
       break;
     }
+    else if (c == '\0')
+    {
+      mCurrentPos = mLength;
+      break;
+    }
+
+    buffer[i++] = c;
     mCurrentPos++;
   }
+  buffer[i] = '\0';
+
+  if (i == 0 && mCurrentPos >= mLength) return false;
 
   return true;
 }

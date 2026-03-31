@@ -52,23 +52,72 @@ class DisplayMargin
 
 
     // Getters
-    /// @return The left margin
+    /// @return The left margin in pixels
     int8_t getLeft() const { return mLeft; }
 
-    /// @return The top margin
+    /// @return The top margin in pixels
     int8_t getTop() const { return mTop; }
 
-    /// @return The right margin
+    /// @return The right margin in pixels
     int8_t getRight() const { return mRight; }
 
-    /// @return The bottom margin
+    /// @return The bottom margin in pixels
     int8_t getBottom() const { return mBottom; }
 
-    /// @return The sum of the left and right margin
-    int8_t getHorizontal() const { return mLeft + mRight; }
+    /// @return The sum of the left and right margin in pixels
+    int16_t getHorizontal() const { return mLeft + mRight; }
 
-    /// @return The sum of the top and bottom margin
-    int8_t getVertical() const { return mTop + mBottom; }
+    /// @return The sum of the top and bottom margin in pixels
+    int16_t getVertical() const { return mTop + mBottom; }
+
+
+    // Setters
+    /// @param left The left margin in pixels
+    void setLeft(int8_t left) { mLeft = left; }
+
+    /// @param top The top margin in pixels
+    void setTop(int8_t top) { mTop = top; }
+
+    /// @param right The right margin in pixels
+    void setRight(int8_t right) { mRight = right; }
+
+    /// @param bottom The bottom margin in pixels
+    void setBottom(int8_t bottom) { mBottom = bottom; }
+
+    /// @param left The left margin in pixels
+    /// @param top The top margin in pixels
+    /// @param right The right margin in pixels
+    /// @param bottom The bottom margin in pixels
+    void setMargins(int8_t left, int8_t top, int8_t right, int8_t bottom)
+    {
+      mLeft = left;
+      mTop = top;
+      mRight = right;
+      mBottom = bottom;
+    }
+
+    /// @param margins The margins
+    /// @note The input is NOT the sum of the margins; so a margin of 2px would be 2px left, 2px top, etc.
+    void setMargin(int8_t margins)
+    {
+      setMargins(margins, margins, margins, margins);
+    }
+
+    /// @param horizontal The margins of both left and right
+    /// @note The input is NOT the sum of the margins; so a horizontal margin of `4px` would be `4px + 4px` is a total margin of 8 pixels
+    void setHorizontal(int8_t horizontal)
+    {
+      setLeft(horizontal);
+      setRight(horizontal);
+    }
+
+    /// @param horizontal The margins of both left and right
+    /// @note The input is NOT the sum of the margins; so a vertical margin of `4px` would be `4px + 4px` is a total margin of 8 pixels
+    void setVertical(int8_t vertical)
+    {
+      setTop(vertical);
+      setBottom(vertical);
+    }
 
 };
 

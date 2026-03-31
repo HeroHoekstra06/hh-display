@@ -11,7 +11,7 @@ void setup()
   display.start();
   display.clear();
 
-  display.setMargin({4, 4});
+  display.getMargin().setLeft(25);
 
   display.print({"Hello,\nWorld!"});
 }

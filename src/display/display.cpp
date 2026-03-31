@@ -31,8 +31,8 @@ void Display::print(DisplayText text)
   int16_t cursorX = mMargin.getLeft();
   int16_t cursorY = mMargin.getTop();
   
-  char *buffer;
-  while (text.getLine(buffer, maxCharsX))
+  char buffer[maxCharsX + 1];
+  while (text.getLine(buffer, sizeof(buffer)))
   {
     mDisplay.setCursor(cursorX, cursorY);
     mDisplay.print(buffer);

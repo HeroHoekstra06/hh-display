@@ -2,12 +2,22 @@
 #define DISPLAY_ALIGN_H
 
 
+enum DisplayAlignFlag
+{
+  H_ALIGN_LEFT,
+  H_ALIGN_CENTER,
+  H_ALIGN_RIGHT
+};
+
+
 class DisplayAlign
 {
   private:
+    DisplayAlignFlag mFlag;
 
   public:
-    DisplayAlign() 
+    DisplayAlign()
+    : mFlag(DisplayAlignFlag::H_ALIGN_LEFT)
     {}
 
 };

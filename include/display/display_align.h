@@ -24,18 +24,18 @@ class DisplayAlign
 
   public:
     /**
-     * @brief Constructs a `DisplayAlign` class with `DisplayAlignFlag::H_ALIGN_LEFT` as the default
-    */
-    DisplayAlign()
-    : mFlag(DisplayAlignFlag::H_ALIGN_LEFT)
-    {}
-
-    /**
      * @brief Constructs a `DisplayAlign` class
      * @param flag The alignment which will be used on a display
     */
     DisplayAlign(DisplayAlignFlag flag)
     : mFlag(flag)
+    {}
+
+    /**
+     * @brief Constructs a `DisplayAlign` class with `DisplayAlignFlag::H_ALIGN_LEFT` as the default
+    */
+    DisplayAlign()
+    : DisplayAlign(DisplayAlignFlag::H_ALIGN_LEFT)
     {}
 
 };

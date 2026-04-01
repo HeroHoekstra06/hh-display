@@ -67,12 +67,17 @@ class DisplayAlign
 
 
     // Getters
-    /// @return The alignment flag
+    /// @return The horizontal alignment flag
     HAlignFlag getHFlag() { return mHFlag; }
+
+    /// @return The vertical alignment flag
+    VAlignFlag getVFlag() { return mVFlag; }
 
 
     // Setters
     void setHFlag(HAlignFlag flag) { mHFlag = flag; }
+
+    void setVFlag(VAlignFlag flag) { mVFlag = flag; }
 
 };
 

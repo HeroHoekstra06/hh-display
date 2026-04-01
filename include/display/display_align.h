@@ -75,8 +75,10 @@ class DisplayAlign
 
 
     // Setters
+    /// @param flag The horizontal alignment flag
     void setHFlag(HAlignFlag flag) { mHFlag = flag; }
 
+    /// @param flag The vertical alignment flag
     void setVFlag(VAlignFlag flag) { mVFlag = flag; }
 
 };

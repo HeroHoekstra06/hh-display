@@ -38,6 +38,15 @@ class DisplayAlign
     : DisplayAlign(DisplayAlignFlag::H_ALIGN_LEFT)
     {}
 
+
+    // Getters
+    /// @return The alignment flag
+    DisplayAlignFlag getFlag() { return mFlag; }
+
+
+    // Setters
+    void setFlag(DisplayAlignFlag flag) { mFlag = flag; }
+
 };
 
 

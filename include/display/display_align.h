@@ -6,11 +6,11 @@
  * @brief An alignment flag for the `DisplayAlign` class
  * @note Items prefixed with 'H' are for the horizontal alignment
 */
-enum DisplayAlignFlag
+enum class HAlignFlag
 {
-  H_ALIGN_LEFT,
-  H_ALIGN_CENTER,
-  H_ALIGN_RIGHT
+  Left,
+  Center,
+  Right
 };
 
 
@@ -20,14 +20,14 @@ enum DisplayAlignFlag
 class DisplayAlign
 {
   private:
-    DisplayAlignFlag mFlag;   ///< Stored enum for later reference
+    HAlignFlag mFlag;   ///< Stored enum for later reference
 
   public:
     /**
      * @brief Constructs a `DisplayAlign` class
      * @param flag The alignment which will be used on a display
     */
-    DisplayAlign(DisplayAlignFlag flag)
+    DisplayAlign(HAlignFlag flag)
     : mFlag(flag)
     {}
 
@@ -35,17 +35,17 @@ class DisplayAlign
      * @brief Constructs a `DisplayAlign` class with `DisplayAlignFlag::H_ALIGN_LEFT` as the default
     */
     DisplayAlign()
-    : DisplayAlign(DisplayAlignFlag::H_ALIGN_LEFT)
+    : DisplayAlign(HAlignFlag::Left)
     {}
 
 
     // Getters
     /// @return The alignment flag
-    DisplayAlignFlag getFlag() { return mFlag; }
+    HAlignFlag getFlag() { return mFlag; }
 
 
     // Setters
-    void setFlag(DisplayAlignFlag flag) { mFlag = flag; }
+    void setFlag(HAlignFlag flag) { mFlag = flag; }
 
 };
 

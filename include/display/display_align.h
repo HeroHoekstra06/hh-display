@@ -3,14 +3,23 @@
 
 
 /**
- * @brief An alignment flag for the `DisplayAlign` class
- * @note Items prefixed with 'H' are for the horizontal alignment
+ * @brief A horizontal alignment flag for the `DisplayAlign` class
 */
 enum class HAlignFlag
 {
   Left,
   Center,
   Right
+};
+
+/**
+ * @brief A vertical alignment flag for the `DisplayAlign` class
+*/
+enum class VAlignFlag
+{
+  Top,
+  Center,
+  Bottom
 };
 
 
@@ -20,7 +29,8 @@ enum class HAlignFlag
 class DisplayAlign
 {
   private:
-    HAlignFlag mFlag;   ///< Stored enum for later reference
+    HAlignFlag mFlag;   ///< Horizontal alignment flag
+    VAlignFlag vFlag;   ///< Vertical alignment flag
 
   public:
     /**

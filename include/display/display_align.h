@@ -29,33 +29,34 @@ enum class VAlignFlag
 class DisplayAlign
 {
   private:
-    HAlignFlag mFlag;   ///< Horizontal alignment flag
-    VAlignFlag vFlag;   ///< Vertical alignment flag
+    HAlignFlag mHFlag;   ///< Horizontal alignment flag
+    VAlignFlag mVFlag;   ///< Vertical alignment flag
 
   public:
     /**
      * @brief Constructs a `DisplayAlign` class
-     * @param flag The alignment which will be used on a display
+     * @param hFlag The horizontal alignment flag
+     * @param vFlag The vertical alignment flag
     */
-    DisplayAlign(HAlignFlag flag)
-    : mFlag(flag)
+    DisplayAlign(HAlignFlag hFlag, VAlignFlag vFlag)
+    : mHFlag(hFlag), mVFlag(vFlag)
     {}
 
     /**
-     * @brief Constructs a `DisplayAlign` class with `DisplayAlignFlag::H_ALIGN_LEFT` as the default
+     * @brief Constructs a `DisplayAlign` class
     */
     DisplayAlign()
-    : DisplayAlign(HAlignFlag::Left)
+    : DisplayAlign(HAlignFlag::Left, VAlignFlag::Top)
     {}
 
 
     // Getters
     /// @return The alignment flag
-    HAlignFlag getFlag() { return mFlag; }
+    HAlignFlag getHFlag() { return mHFlag; }
 
 
     // Setters
-    void setFlag(HAlignFlag flag) { mFlag = flag; }
+    void setHFlag(HAlignFlag flag) { mHFlag = flag; }
 
 };
 

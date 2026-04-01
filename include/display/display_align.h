@@ -44,6 +44,22 @@ class DisplayAlign
 
     /**
      * @brief Constructs a `DisplayAlign` class
+     * @param hFlag The horizontal alignment flag
+    */
+    DisplayAlign(HAlignFlag hFlag)
+    : DisplayAlign(hFlag, VAlignFlag::Top)
+    {}
+
+    /**
+     * @brief Constructs a `DisplayAlign` class
+     * @param vFlag The vertical alignment flag
+    */
+    DisplayAlign(VAlignFlag vFlag)
+    : DisplayAlign(HAlignFlag::Left, vFlag)
+    {}
+
+    /**
+     * @brief Constructs a `DisplayAlign` class
     */
     DisplayAlign()
     : DisplayAlign(HAlignFlag::Left, VAlignFlag::Top)

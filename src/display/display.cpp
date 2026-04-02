@@ -35,12 +35,12 @@ void Display::print(DisplayText text)
   }
 
   uint8_t maxCharsX = (getScreenWidth() - mMargin.getHorizontal()) / getCharWidth();
-  int16_t cursorY = mMargin.getTop();
+  int16_t cursorY = mAlignment.findStartY(mMargin, mScreenHeight, 2, getCharHeight()); // TODO: 2 is hard coded for example. Needs to be fixed later.
   
   char buffer[maxCharsX + 1];
   while (text.getLine(buffer, sizeof(buffer)))
   {
-    int16_t cursorX = mAlignment.findStartX(buffer, mMargin, mScreenWidth, mPrintSize);
+    int16_t cursorX = mAlignment.findStartX(buffer, mMargin, mScreenWidth, getCharWidth());
 
     mDisplay.setCursor(cursorX, cursorY);
     mDisplay.print(buffer);

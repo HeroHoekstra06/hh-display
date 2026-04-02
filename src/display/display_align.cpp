@@ -21,11 +21,11 @@ int16_t DisplayAlign::findStartX(char *text, const DisplayMargin& margin, uint8_
   }
   else if (mHFlag == HAlignFlag::Right)
   {
-    return (margin.getLeft() + useableSpace) / 2 - margin.getRight();
+    return (margin.getLeft() + useableSpace) - margin.getRight();
   }
   else // HAlignFlag::Center
   {
-    return (margin.getLeft() + useableSpace) / 4 - margin.getRight();
+    return (margin.getLeft() + useableSpace) / 2 - margin.getRight();
   }
 }
 

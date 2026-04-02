@@ -13,7 +13,7 @@ void setup()
   display.clear();
 
   display.getMargin().setMargin(5);
-  display.getAlignment().setHFlag(HAlignFlag::Right);
+  display.getAlignment().setHFlag(HAlignFlag::Center);
   display.getAlignment().setVFlag(VAlignFlag::Center);
 
   display.print({"Hello,\nWorld!"});

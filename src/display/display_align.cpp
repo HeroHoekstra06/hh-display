@@ -3,12 +3,16 @@
 #include "display/display_align.h"
 #include "display/display_margin.h"
 
+// Temp for testing
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
 
 int16_t DisplayAlign::findStartX(char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize)
 {
   uint16_t stringWidth = strlen(text) * charSize;
   
-  int16_t innerWidth = screenWidth - margin.getLeft() - margin.getRight();
+  int16_t innerWidth = screenWidth - margin.getHorizontal();
   int16_t useableSpace = innerWidth - stringWidth;
 
   if (mHFlag == HAlignFlag::Left)
@@ -17,10 +21,10 @@ int16_t DisplayAlign::findStartX(char *text, const DisplayMargin& margin, uint8_
   }
   else if (mHFlag == HAlignFlag::Right)
   {
-    return margin.getLeft() + useableSpace;
+    return (margin.getLeft() + useableSpace) / 2 - margin.getRight();
   }
   else // HAlignFlag::Center
   {
-    return margin.getLeft() + (useableSpace / 2);
+    return (margin.getLeft() + useableSpace) / 4 - margin.getRight();
   }
 }

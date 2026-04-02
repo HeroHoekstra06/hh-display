@@ -14,6 +14,7 @@ void setup()
 
   display.getMargin().setMargin(5);
   display.getAlignment().setHFlag(HAlignFlag::Right);
+  display.getAlignment().setVFlag(VAlignFlag::Center);
 
   display.print({"Hello,\nWorld!"});
 }

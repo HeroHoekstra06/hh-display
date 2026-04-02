@@ -30,9 +30,22 @@ int16_t DisplayAlign::findStartX(char *text, const DisplayMargin& margin, uint8_
 }
 
 
-int16_t DisplayAlign::findStartY(const DisplayMargin& margin, uint8_t screenHeight, uint8_t charSize)
+int16_t DisplayAlign::findStartY(const DisplayMargin& margin, uint8_t screenHeight, uint8_t lineAmount, uint8_t charSize)
 {
   int16_t innerHeight = screenHeight - margin.getVertical();
-  
-  return margin.getTop();
+  int16_t totalSize = lineAmount * charSize;
+  int16_t useableSpace = innerHeight - totalSize;
+
+  if (mVFlag == VAlignFlag::Top)
+  {
+    return margin.getTop();
+  }
+  else if (mVFlag == VAlignFlag::Bottom)
+  {
+    return (margin.getTop() + useableSpace) / 2 - margin.getBottom();
+  }
+  else // VAlignFlag::Center
+  {
+    return (margin.getTop() + useableSpace) / 4 - margin.getBottom();
+  }
 }

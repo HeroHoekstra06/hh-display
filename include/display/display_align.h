@@ -86,7 +86,7 @@ class DisplayAlign
      * @param charSize The height of the characters
      * @return The Y coordinate where the text needs to start
     */
-    int16_t findStartY(const DisplayMargin& margin, uint8_t screenHeight, uint8_t charSize);
+    int16_t findStartY(const DisplayMargin& margin, uint8_t screenHeight, uint8_t lineAmount, uint8_t charSize);
 
 
     // Getters

@@ -32,7 +32,14 @@ bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
 }
 
 
-uint16_t DisplayText::getLineAmount()
+uint16_t DisplayText::getLineAmount(uint16_t lineSize)
 {
-  return 0;
+  if (mLineAmount != 0) return mLineAmount;
+
+  char *buffer;
+  uint16_t i = 0;
+  while (getLine(buffer, lineSize)) i++;
+
+  mLineAmount = i;
+  return i;
 }

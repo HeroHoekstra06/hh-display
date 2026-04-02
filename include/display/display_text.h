@@ -41,11 +41,12 @@ class DisplayText
 
     /**
      * @brief Gets the amount of lines that this text will create
+     * @param lineSize The amount of characters per line
      * @return The amount of lines
      * @note Once this function has been called, the line amount will be stored and returned the next time this function is called.
      * If the text somehow got altered the line amount may be incorrect.
     */
-    uint16_t getLineAmount();
+    uint16_t getLineAmount(uint16_t lineSize);
 
 
     // Getters

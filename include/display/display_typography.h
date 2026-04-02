@@ -46,8 +46,11 @@ class DisplayTypography
 
 
     // Setters
+    /// @param lineHeight The amount that the Y position of the cursor is incremented with
+    /// @note `lineHeight` is the total line height, not the gap between characters on the Y axis
     void setLineHeight(uint8_t lineHeight) { mLineHeight = lineHeight; }
 
+    /// @param charGap The amount of pixels between each character
     void setCharGap(uint8_t charGap) { mCharGap = charGap; }
 
 };

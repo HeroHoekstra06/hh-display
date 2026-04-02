@@ -25,7 +25,9 @@ int16_t DisplayAlign::findStartX(char *text, const DisplayMargin& margin, uint8_
   }
   else // HAlignFlag::Center
   {
-    return (margin.getLeft() + useableSpace) / 2 - margin.getRight();
+    int16_t middle = (screenWidth - stringWidth) / 2;
+    middle += (margin.getLeft() - margin.getRight());
+    return middle;
   }
 }
 

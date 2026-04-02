@@ -36,6 +36,20 @@ class DisplayTypography
     : DisplayTypography(9, 1)
     {}
 
+
+    // Getters
+    /// @return The height to add to the Y axis of the cursor
+    uint8_t getLineHeight() { return mLineHeight; }
+
+    /// @return The amount of pixels between each character on the X axis
+    uint8_t getCharGap() { return mCharGap; }
+
+
+    // Setters
+    void setLineHeight(uint8_t lineHeight) { mLineHeight = lineHeight; }
+
+    void setCharGap(uint8_t charGap) { mCharGap = charGap; }
+
 };
 
 

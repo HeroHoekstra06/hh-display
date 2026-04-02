@@ -3,10 +3,6 @@
 #include "display/display_align.h"
 #include "display/display_margin.h"
 
-// Temp for testing
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-
 
 int16_t DisplayAlign::findStartX(char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize)
 {

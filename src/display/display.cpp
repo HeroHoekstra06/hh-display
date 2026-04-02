@@ -41,7 +41,7 @@ void Display::print(DisplayText text)
   while (text.getLine(buffer, sizeof(buffer)))
   {
     int16_t cursorX = mAlignment.findStartX(buffer, mMargin, mScreenWidth, getCharWidth());
-
+    
     mDisplay.setCursor(cursorX, cursorY);
     mDisplay.print(buffer);
     cursorY += getCharHeight();

@@ -25,7 +25,8 @@ class DisplayText
      * @see https://cplusplus.com/reference/string/string/
      */
     DisplayText(const std::string& text)
-    : mText(text), mRawString(mText.c_str()), mLength(text.length())
+    : mText(text), mRawString(mText.c_str()), 
+      mLength(text.length()), mCurrentPos(0)
     {}
 
 

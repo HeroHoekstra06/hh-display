@@ -44,10 +44,12 @@ int16_t DisplayAlign::findStartY(const DisplayMargin& margin, uint8_t screenHeig
   }
   else if (mVFlag == VAlignFlag::Bottom)
   {
-    return (margin.getTop() + useableSpace) / 2 - margin.getBottom();
+    return (margin.getTop() + useableSpace) - margin.getBottom();
   }
   else // VAlignFlag::Center
   {
-    return (margin.getTop() + useableSpace) / 4 - margin.getBottom();
+    int16_t middle = (screenHeight - totalSize) / 2;
+    middle += (margin.getTop() - margin.getBottom());
+    return middle;
   }
 }

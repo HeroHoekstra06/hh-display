@@ -15,6 +15,7 @@ class DisplayText
 
     const uint16_t mLength;   ///< The size of the stored string.
     uint16_t mCurrentPos;     ///< The current position for the `DisplayText::getLine()` function.
+    uint16_t mLineAmount;     ///< The amount of lines that are send to the screen
 
   public:
     /**
@@ -26,7 +27,7 @@ class DisplayText
      */
     DisplayText(const std::string& text)
     : mText(text), mRawString(mText.c_str()), 
-      mLength(text.length()), mCurrentPos(0)
+      mLength(text.length()), mCurrentPos(0), mLineAmount(0)
     {}
 
 
@@ -37,6 +38,14 @@ class DisplayText
      * @return If this is the last step, or if there should be another loop
      */
     bool getLine(char* buffer, uint16_t lineSize);
+
+    /**
+     * @brief Gets the amount of lines that this text will create
+     * @return The amount of lines
+     * @note Once this function has been called, the line amount will be stored and returned the next time this function is called.
+     * If the text somehow got altered the line amount may be incorrect.
+    */
+    uint16_t getLineAmount();
 
 
     // Getters

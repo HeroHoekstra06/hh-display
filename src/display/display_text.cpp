@@ -30,3 +30,9 @@ bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
 
   return true;
 }
+
+
+uint16_t DisplayText::getLineAmount()
+{
+  return 0;
+}

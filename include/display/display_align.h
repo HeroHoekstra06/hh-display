@@ -1,6 +1,9 @@
 #ifndef DISPLAY_ALIGN_H
 #define DISPLAY_ALIGN_H
 
+#include "display/display_margin.h"
+#include "display/display_text.h"
+
 
 /**
  * @brief A horizontal alignment flag for the `DisplayAlign` class
@@ -64,6 +67,15 @@ class DisplayAlign
     DisplayAlign()
     : DisplayAlign(HAlignFlag::Left, VAlignFlag::Top)
     {}
+
+
+    /**
+     * @brief Calculates the starting X so that the text is properly aligned
+     * @param text The display text used to calculate the total width
+     * @param margin The margin which will be added to the start X
+     * @return The X coordinate where the text needs to start
+    */
+    int16_t findStartX(const DisplayText& text, const DisplayMargin& margin);
 
 
     // Getters

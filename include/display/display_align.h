@@ -74,10 +74,19 @@ class DisplayAlign
      * @param text The display text used to calculate the total width
      * @param margin The margin which will be added to the start X
      * @param screenWidth The width of the display screen
-     * @param printSize The width of the characters
+     * @param charSize The width of the characters
      * @return The X coordinate where the text needs to start
     */
-    int16_t findStartX(char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t printSize);
+    int16_t findStartX(char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize);
+
+    /**
+     * @brief Calculates the starting Y so that the text is properly aligned
+     * @param margin The margin which will be added to the start Y
+     * @param screenHeight The height of the display screen
+     * @param charSize The height of the characters
+     * @return The Y coordinate where the text needs to start
+    */
+    int16_t findStartY(const DisplayMargin& margin, uint8_t screenHeight, uint8_t charSize);
 
 
     // Getters

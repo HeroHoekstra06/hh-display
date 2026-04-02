@@ -28,3 +28,11 @@ int16_t DisplayAlign::findStartX(char *text, const DisplayMargin& margin, uint8_
     return (margin.getLeft() + useableSpace) / 4 - margin.getRight();
   }
 }
+
+
+int16_t DisplayAlign::findStartY(const DisplayMargin& margin, uint8_t screenHeight, uint8_t charSize)
+{
+  int16_t innerHeight = screenHeight - margin.getVertical();
+  
+  return margin.getTop();
+}

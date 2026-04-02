@@ -1,4 +1,5 @@
 #include "display/display.h"
+#include "display/display_align.h"
 #include "display/display_text.h"
 
 
@@ -11,9 +12,13 @@ void setup()
   display.start();
   display.clear();
 
-  display.getMargin().setLeft(25);
+  display.getAlignment().setHFlag(HAlignFlag::Right);
+  display.getAlignment().setVFlag(VAlignFlag::Center);
 
   display.print({"Hello,\nWorld!"});
+  
+  display.getAlignment().setHFlag(HAlignFlag::Left);
+  display.print({"2nd:"});
 }
 
 void loop() 

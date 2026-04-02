@@ -75,7 +75,7 @@ class DisplayAlign
      * @param margin The margin which will be added to the start X
      * @return The X coordinate where the text needs to start
     */
-    int16_t findStartX(const DisplayText& text, const DisplayMargin& margin);
+    int16_t findStartX(char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t printSize);
 
 
     // Getters

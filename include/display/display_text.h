@@ -2,6 +2,7 @@
 #define DISPLAY_TEXT_H
 
 #include <string>
+#include <vector>
 
 
 /**
@@ -10,12 +11,15 @@
 class DisplayText
 {
   private:
-    const std::string mText;  ///< Stored text for later use.
-    const char *mRawString;   ///< Stored text as a raw string.
+    const std::string mText;          ///< Stored text for later use.
+    const char *mRawString;           ///< Stored text as a raw string.
 
-    const uint16_t mLength;   ///< The size of the stored string.
-    uint16_t mCurrentPos;     ///< The current position for the `DisplayText::getLine()` function.
-    uint16_t mLineAmount;     ///< The amount of lines that are send to the screen
+    const uint16_t mLength;           ///< The size of the stored string.
+    uint16_t mCurrentPos;             ///< The current position for the `DisplayText::getLine()` function.
+    uint16_t mLineAmount;             ///< The amount of lines that are send to the screen
+
+    std::vector<uint16_t> mLineSizes; ///< The calculated line sizes
+    uint16_t mLineAmount;             ///< The amount of lines
 
   public:
     /**

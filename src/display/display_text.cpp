@@ -50,5 +50,23 @@ uint16_t DisplayText::getLineAmount(uint16_t lineSize)
 
 uint16_t DisplayText::getLineSize(uint16_t line)
 {
-  return 0;
+  // Check if this function has already been done
+  if (mLineSizes.size() > 0)
+  {
+    if (line > mLineAmount) return 0;
+    else return mLineSizes[line];
+  }
+  
+  // Only end up here if mLineSizes has not been "initialized" yet
+  uint16_t lineSize = 0;
+  for (char c : mText)
+  {
+    if (c == '\n')
+    {
+      mLineSizes.push_back(lineSize);
+      lineSize = 0;
+    }
+    
+    lineSize++;
+  }
 }

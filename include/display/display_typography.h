@@ -30,10 +30,10 @@ class DisplayTypography
     /**
      * @brief Constructs a DisplayTypography object, which determines the gap between characters
      * @note This constructor assumes the default Adafruit character sizes, which means a 
-     * `lineHeight` of 9 pixels (8 is the character height + 1 as a small gap) and `charGap` is 1
+     * `lineHeight` of 17 pixels (8 * 2 is the character height + 1 as a small gap) and `charGap` is 1
      */
     DisplayTypography()
-    : DisplayTypography(9, 1)
+    : DisplayTypography(17, 1)
     {}
 
 

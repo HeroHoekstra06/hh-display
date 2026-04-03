@@ -40,7 +40,7 @@ class Display
     Display(uint8_t width, uint8_t height, int8_t oledReset, uint8_t address=0x3C)
     : mScreenWidth(width), mScreenHeight(height), 
       mOledReset(oledReset), mAddress(address),
-      mPrintSize(2), mMargin(0), mAlignment(DisplayAlign{}),
+      mPrintSize(2), mMargin(0), mAlignment(DisplayAlign{}), mTypography(DisplayTypography{}),
       mDisplay(Adafruit_SSD1306{width, height, &Wire, oledReset})
     {}
 

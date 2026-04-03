@@ -77,7 +77,7 @@ class DisplayAlign
      * @param charSize The width of the characters
      * @return The X coordinate where the text needs to start
     */
-    int16_t findStartX(char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize);
+    int16_t findStartX(const char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize);
 
     /**
      * @brief Calculates the starting Y so that the text is properly aligned

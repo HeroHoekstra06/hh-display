@@ -4,7 +4,7 @@
 #include "display/display_margin.h"
 
 
-int16_t DisplayAlign::findStartX(char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize)
+int16_t DisplayAlign::findStartX(const char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize)
 {
   uint16_t stringWidth = strlen(text) * charSize;
   

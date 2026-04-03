@@ -16,7 +16,7 @@ void setup()
   display.getAlignment().setVFlag(VAlignFlag::Center);
   display.getTypography().setCharGap(3);
 
-  display.print({"Hello,\nWorld!"});
+  display.println({"Hello,\nWorld!"});
 }
 
 void loop() 

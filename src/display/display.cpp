@@ -61,3 +61,30 @@ void Display::print(DisplayText text)
 
   mDisplay.display();
 }
+
+
+void Display::println(DisplayText text)
+{
+  const char *rawString = text.getRawString();
+  uint8_t charWidth = getCharWidth() + mTypography.getCharGap();
+  uint16_t lineAmount = text.getLineAmount(UINT16_MAX);
+
+  int16_t cursorX = mAlignment.findStartX(rawString, mMargin, mScreenWidth, charWidth);
+  int16_t cursorY = mAlignment.findStartY(mMargin, mScreenHeight, lineAmount, mTypography.getLineHeight());
+
+  uint16_t i = 0;
+  while (rawString[i] != '\0')
+  {
+    char c = rawString[i++];
+    if (c == '\n')
+    {
+      cursorY += mTypography.getLineHeight();
+      continue;
+    }
+
+    mDisplay.setCursor(cursorX, cursorY);
+    mDisplay.print(c);
+
+    cursorX += charWidth;
+  }
+}

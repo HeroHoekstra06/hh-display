@@ -74,6 +74,15 @@ class Display
      */
     void print(DisplayText text);
 
+    /**
+     * @brief Prints a string to the screen on one line
+     * @param text The string that will be printed
+     * @note When there is a newline character (`\n`), it will switch over to the next line
+     * @note When there is a terminator character (`\0`), it will stop printing
+     * @note If `Display::clear()` is not called, characters will overlap
+    */
+   void println(DisplayText text);
+
 
     // Getters
     /// @return The width of the screen in pixels.

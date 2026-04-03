@@ -34,7 +34,11 @@ void Display::print(DisplayText text)
     return;
   }
 
-  uint8_t maxCharsX = (getScreenWidth() - mMargin.getHorizontal()) / getCharWidth();
+  uint8_t useableSpace = getScreenWidth() - mMargin.getHorizontal();
+  uint8_t charWidth = getCharWidth();
+  uint8_t charGap = mTypography.getCharGap();
+
+  uint8_t maxCharsX = (useableSpace + charGap) / (charWidth + charGap);
   
   char buffer[maxCharsX + 1];
   uint16_t lineSize = sizeof(buffer);
@@ -43,10 +47,15 @@ void Display::print(DisplayText text)
 
   while (text.getLine(buffer, lineSize))
   {
-    int16_t cursorX = mAlignment.findStartX(buffer, mMargin, mScreenWidth, getCharWidth());
+    int16_t cursorX = mAlignment.findStartX(buffer, mMargin, mScreenWidth, charWidth);
 
-    mDisplay.setCursor(cursorX, cursorY);
-    mDisplay.print(buffer);
+    for (char c : buffer)
+    {
+      mDisplay.setCursor(cursorX, cursorY);
+      mDisplay.print(c);
+      cursorX += (charWidth + charGap);
+    }
+
     cursorY += getCharHeight();
   }
 

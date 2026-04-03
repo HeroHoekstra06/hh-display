@@ -12,13 +12,11 @@ void setup()
   display.start();
   display.clear();
 
-  display.getAlignment().setHFlag(HAlignFlag::Right);
+  display.getAlignment().setHFlag(HAlignFlag::Left);
   display.getAlignment().setVFlag(VAlignFlag::Center);
+  display.getTypography().setCharGap(3);
 
   display.print({"Hello,\nWorld!"});
-  
-  display.getAlignment().setHFlag(HAlignFlag::Left);
-  display.print({"2nd:"});
 }
 
 void loop() 

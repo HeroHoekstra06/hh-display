@@ -81,6 +81,10 @@ void Display::println(DisplayText text)
       cursorY += mTypography.getLineHeight();
       continue;
     }
+    else if (c == '\0')
+    {
+      break;
+    }
 
     mDisplay.setCursor(cursorX, cursorY);
     mDisplay.print(c);

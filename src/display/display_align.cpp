@@ -3,13 +3,19 @@
 #include "display/display_align.h"
 #include "display/display_margin.h"
 
+#include <Adafruit_GFX.h>
 
-int16_t DisplayAlign::findStartX(const char *text, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize)
+
+int16_t DisplayAlign::findStartX(uint16_t textSize, const DisplayMargin& margin, uint8_t screenWidth, uint8_t charSize)
 {
-  uint16_t stringWidth = strlen(text) * charSize;
+  uint16_t stringWidth = textSize * charSize;
   
   int16_t innerWidth = screenWidth - margin.getHorizontal();
   int16_t useableSpace = innerWidth - stringWidth;
+
+  Serial.println(stringWidth);
+  Serial.println(innerWidth);
+  Serial.println(useableSpace);
 
   if (mHFlag == HAlignFlag::Left)
   {

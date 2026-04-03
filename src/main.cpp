@@ -12,7 +12,7 @@ void setup()
   display.start();
   display.clear();
 
-  display.getAlignment().setHFlag(HAlignFlag::Left);
+  display.getAlignment().setHFlag(HAlignFlag::Center);
   display.getAlignment().setVFlag(VAlignFlag::Center);
 
   display.println({"Hello,\nWorld!"});

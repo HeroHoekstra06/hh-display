@@ -47,3 +47,8 @@ uint16_t DisplayText::getLineAmount(uint16_t lineSize)
   mLineAmount = i;
   return i;
 }
+
+uint16_t DisplayText::getLineSize(uint16_t line)
+{
+  return 0;
+}

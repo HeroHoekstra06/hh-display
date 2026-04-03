@@ -47,7 +47,7 @@ void Display::print(DisplayText text)
 
   while (text.getLine(buffer, lineSize))
   {
-    int16_t cursorX = mAlignment.findStartX(buffer, mMargin, mScreenWidth, charWidth);
+    int16_t cursorX = mAlignment.findStartX(strlen(buffer), mMargin, mScreenWidth, charWidth);
 
     for (char c : buffer)
     {
@@ -68,7 +68,7 @@ void Display::println(DisplayText text)
   const char *rawString = text.getRawString();
 
   uint16_t charWidth = getCharWidth() + mTypography.getCharGap();
-  uint8_t initialX = mAlignment.findStartX(rawString, mMargin, mScreenWidth, charWidth);
+  uint8_t initialX = mAlignment.findStartX(text.getLineSize(0), mMargin, mScreenWidth, charWidth);
   uint16_t cursorX = initialX;
   uint16_t cursorY = 0;
 

@@ -48,6 +48,13 @@ class DisplayText
     */
     uint16_t getLineAmount(uint16_t lineSize);
 
+    /**
+     * @brief Gets the amount of characters in one line
+     * @param line The line index
+     * @return The amount of characters
+     */
+    uint16_t getLineSize(uint16_t line);
+
 
     // Getters
     /// @return The stored string

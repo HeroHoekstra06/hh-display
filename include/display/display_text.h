@@ -38,7 +38,9 @@ class DisplayText
     DisplayText(const std::string& text)
     : mText(text), mRawString(mText.c_str()), 
       mLength(text.length()), mCurrentPos(0), mLineAmount(0)
-    {}
+    {
+      initializeLines();
+    }
 
 
     /**

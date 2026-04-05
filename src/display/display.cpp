@@ -68,9 +68,10 @@ void Display::println(DisplayText text)
   const char *rawString = text.getRawString();
 
   uint16_t charWidth = getCharWidth() + mTypography.getCharGap();
-  uint8_t initialX = mAlignment.findStartX(text.getLineSize(0), mMargin, mScreenWidth, charWidth);
-  uint16_t cursorX = initialX;
+  uint16_t cursorX = mAlignment.findStartX(text.getLineSize(0), mMargin, mScreenWidth, charWidth);
   uint16_t cursorY = 0;
+
+  uint16_t currentLine = 0;
 
   for (uint16_t i = 0; rawString[i] != '\0'; i++)
   {
@@ -79,7 +80,7 @@ void Display::println(DisplayText text)
     if (c == '\n')
     {
       cursorY += mTypography.getLineHeight();
-      cursorX = initialX;
+      cursorX = mAlignment.findStartX(text.getLineSize(++currentLine), mMargin, mScreenWidth, charWidth);
       continue;
     }
 

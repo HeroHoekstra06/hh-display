@@ -19,7 +19,13 @@ class DisplayText
     uint16_t mLineAmount;             ///< The amount of lines that are send to the screen
 
     std::vector<uint16_t> mLineSizes; ///< The calculated line sizes
-    uint16_t mLineAmount;             ///< The amount of lines
+    std::vector<std::string> mLines;  ///< `mText` split up into an array of lines
+
+    /**
+     * @brief Loops through the text and fills `mLines` with different lines of text
+     * @note Lines are determined by a newline character (`\n`)
+    */
+    void initializeLines();
 
   public:
     /**

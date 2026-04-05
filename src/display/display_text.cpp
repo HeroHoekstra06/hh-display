@@ -11,6 +11,7 @@ void DisplayText::initializeLines()
     {
       // Push the buffer to `mLines` and make it an empty string again
       mLines.push_back(buffer);
+      mLineSizes.push_back(buffer.size());
       buffer = "";
       continue;
     }
@@ -20,6 +21,7 @@ void DisplayText::initializeLines()
 
   // Push the last line to the buffer, as it won't trigger the `if` in the loop
   mLines.push_back(buffer);
+  mLineSizes.push_back(buffer.size());
 }
 
 

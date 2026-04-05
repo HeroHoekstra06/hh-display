@@ -16,7 +16,9 @@ class DisplayText
 
     const uint16_t mLength;           ///< The size of the stored string.
     uint16_t mCurrentPos;             ///< The current position for the `DisplayText::getLine()` function.
+    
     uint16_t mLineAmount;             ///< The amount of lines that are send to the screen
+    uint16_t mLongestLine;            ///< The longest line in the text
 
     std::vector<uint16_t> mLineSizes; ///< The calculated line sizes
     std::vector<std::string> mLines;  ///< `mText` split up into an array of lines

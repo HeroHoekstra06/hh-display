@@ -1,6 +1,6 @@
 #include "display/display_text.h"
 
-
+// Private
 void DisplayText::initializeLines()
 {
   std::string buffer = "";
@@ -10,9 +10,15 @@ void DisplayText::initializeLines()
     if (c == '\n')
     {
       // Push the buffer to `mLines` and make it an empty string again
+      uint16_t size = buffer.size();
+
       mLines.push_back(buffer);
-      mLineSizes.push_back(buffer.size());
+      mLineSizes.push_back(size);
+
+      if (mLongestLine < size) mLongestLine = size;
+
       buffer = "";
+
       continue;
     }
 
@@ -20,11 +26,17 @@ void DisplayText::initializeLines()
   }
 
   // Push the last line to the buffer, as it won't trigger the `if` in the loop
+  uint16_t size = buffer.size();
   mLines.push_back(buffer);
-  mLineSizes.push_back(buffer.size());
+  mLineSizes.push_back(size);
+  
+  if (mLongestLine < size) mLongestLine = size;
+
+  mLineAmount = mLines.size();
 }
 
 
+// Public
 bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
 {
   if (mCurrentPos >= mLength) return false;

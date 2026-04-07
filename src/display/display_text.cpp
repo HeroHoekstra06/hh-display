@@ -1,5 +1,8 @@
 #include "display/display_text.h"
 
+#include <cstring>
+
+
 // Private
 void DisplayText::initializeLines()
 {
@@ -29,7 +32,7 @@ void DisplayText::initializeLines()
   uint16_t size = buffer.size();
   mLines.push_back(buffer);
   mLineSizes.push_back(size);
-  
+
   if (mLongestLine < size) mLongestLine = size;
 
   mLineAmount = mLines.size();
@@ -39,32 +42,30 @@ void DisplayText::initializeLines()
 // Public
 bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
 {
-  if (mCurrentPos >= mLength) return false;
+  if (mCurrentPos >= mLineAmount) return false;
 
-  uint16_t i = 0;
-  while (i < (bufferSize - 1) && mCurrentPos < mLength)
+  // If the string size fits in the buffer, just return that
+  if (mLongestLine < bufferSize)
   {
-    char c = mRawString[mCurrentPos];
-
-    if (c == '\n')
-    {
-      mCurrentPos++;
-      break;
-    }
-    else if (c == '\0')
-    {
-      mCurrentPos = mLength;
-      break;
-    }
-
-    buffer[i++] = c;
-    mCurrentPos++;
+    strcpy(buffer, mLines[mCurrentPos++].c_str());
+    return true;
   }
-  buffer[i] = '\0';
 
-  if (i == 0 && mCurrentPos >= mLength) return false;
-
-  return true;
+  std::string str = mLines[mCurrentPos];
+  if (mLineSizes[mCurrentPos] < bufferSize)
+  {
+    strcpy(buffer, str.c_str());
+    return true;
+  }
+  else
+  {
+    uint16_t i = 0;
+    while (i++ < bufferSize || mCurrentPart == mLineSizes[mCurrentPos])
+    {
+      buffer[i] = str[mCurrentPart++];
+    }
+    buffer[bufferSize] = '\0';
+  }
 }
 
 

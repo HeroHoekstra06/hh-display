@@ -19,6 +19,7 @@ class DisplayText
     
     uint16_t mLineAmount;             ///< The amount of lines that are send to the screen
     uint16_t mLongestLine;            ///< The longest line in the text
+    uint16_t mCurrentPart;            ///< The place where `DisplayText::getLine` last left off
 
     std::vector<uint16_t> mLineSizes; ///< The calculated line sizes
     std::vector<std::string> mLines;  ///< `mText` split up into an array of lines

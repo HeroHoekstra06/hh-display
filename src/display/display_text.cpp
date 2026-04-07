@@ -44,28 +44,23 @@ bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
 {
   if (mCurrentPos >= mLineAmount) return false;
 
-  // If the string size fits in the buffer, just return that
-  if (mLongestLine < bufferSize)
+  const std::string& currentStr = mLines[mCurrentPos];
+
+  uint16_t remainingChars = currentStr.length() - mCurrentPart;
+  uint16_t charsToCopy = std::min<uint16_t>(bufferSize - 1, remainingChars);
+
+  memcpy(buffer, currentStr.c_str() + mCurrentPart, charsToCopy);
+  buffer[bufferSize] = '\0';
+
+  mCurrentPart += charsToCopy;
+
+  if (mCurrentPart >= currentStr.length())
   {
-    strcpy(buffer, mLines[mCurrentPos++].c_str());
-    return true;
+    mCurrentPart = 0;
+    mCurrentPos++;
   }
 
-  std::string str = mLines[mCurrentPos];
-  if (mLineSizes[mCurrentPos] < bufferSize)
-  {
-    strcpy(buffer, str.c_str());
-    return true;
-  }
-  else
-  {
-    uint16_t i = 0;
-    while (i++ < bufferSize || mCurrentPart == mLineSizes[mCurrentPos])
-    {
-      buffer[i] = str[mCurrentPart++];
-    }
-    buffer[bufferSize] = '\0';
-  }
+  return true;
 }
 
 

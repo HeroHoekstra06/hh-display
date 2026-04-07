@@ -38,21 +38,31 @@ void Display::print(DisplayText text)
   uint8_t charWidth = getCharWidth();
   uint8_t charGap = mTypography.getCharGap();
 
+  // Avoid devide by 0 error
+  if (charWidth + charGap == 0) return;
+
   uint8_t maxCharsX = (useableSpace + charGap) / (charWidth + charGap);
+  if (maxCharsX == 0)
+  {
+    Serial.println("Warning: Screen space too small for text. Nothing will be printed.");
+    return;
+  }
   
-  char buffer[maxCharsX + 1];
-  uint16_t lineSize = sizeof(buffer);
+  char buffer[256];
+
+  uint16_t bufferLimit = maxCharsX + 1;
+  uint16_t lineSize = bufferLimit;
 
   int16_t cursorY = mAlignment.findStartY(mMargin, mScreenHeight, text.getLineAmount(lineSize), getCharHeight());
 
-  while (text.getLine(buffer, lineSize))
+  while (text.getLine(buffer, bufferLimit))
   {
     int16_t cursorX = mAlignment.findStartX(strlen(buffer), mMargin, mScreenWidth, charWidth);
 
-    for (char c : buffer)
+    for (uint8_t i = 0; buffer[i] != '\0'; i++)
     {
       mDisplay.setCursor(cursorX, cursorY);
-      mDisplay.print(c);
+      mDisplay.print(buffer[i]);
       cursorX += (charWidth + charGap);
     }
 

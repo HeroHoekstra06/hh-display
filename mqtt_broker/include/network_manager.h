@@ -68,6 +68,8 @@ class NetworkManager
 
     /**
      * @brief Sends a payload to a specific client
+     * @param client_id A specific client
+     * @param data A list of bytes represented by `uint8_t`
      * @returns If the data was successfully send
      */
     bool sendData(int client_fd, const std::vector<uint8_t>& data);

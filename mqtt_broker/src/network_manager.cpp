@@ -46,3 +46,28 @@ bool NetworkManager::start()
   std::cout << "Started listening on port '" << m_port << "'" << std::endl;
   return true;
 }
+
+void NetworkManager::stop()
+{
+  if (m_running)
+  {
+    m_running = false;
+    if (m_worker_thread.joinable())
+    {
+      m_worker_thread.join();
+    }
+
+    std::lock_guard<std::mutex> lock(m_clients_mutex);
+    for (auto& pfd : m_poll_fds)
+    {
+      close(pfd.fd);
+    }
+    m_poll_fds.clear();
+  }
+}
+
+bool NetworkManager::sendData(int client_fd, const std::vector<uint8_t>& data)
+{
+  ssize_t bytes_sent = send(client_fd, data.data(), data.size(), 0);
+  return bytes_sent == static_cast<ssize_t>(data.size());
+}

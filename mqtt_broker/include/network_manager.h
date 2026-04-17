@@ -2,11 +2,16 @@
 #define NETWORK_MANAGER_H
 
 #include <iostream>
-#include <functional>
+#include <string>
 #include <vector>
-#include <atomic>
+#include <functional>
 #include <thread>
+#include <atomic>
 #include <mutex>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <poll.h>
 
 
 using DataCallback = std::function<void(int client_fd, const std::vector<uint8_t>& data)>;
@@ -45,7 +50,10 @@ class NetworkManager
     /**
      * @brief Deconstructs the network manager safely by calling `NetworkManager::stop()`
      */
-    ~NetworkManager();
+    ~NetworkManager()
+    {
+      stop();
+    }
 
     /**
      * @brief Starts the network manager and makes it actually listen to incoming requests

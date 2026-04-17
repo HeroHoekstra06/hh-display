@@ -6,4 +6,4 @@
 .vscode/ipch
 
 # CMake, Mostly just for the MQTT broker
-build/**
+**/build

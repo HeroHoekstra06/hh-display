@@ -57,7 +57,7 @@ void Display::print(DisplayText text)
 
   while (text.getLine(buffer, bufferLimit))
   {
-    int16_t cursorX = mAlignment.findStartX(strlen(buffer), mMargin, mScreenWidth, charWidth);
+    int16_t cursorX = mAlignment.findStartX(strlen(buffer), mMargin, mScreenWidth, charWidth + charGap);
 
     for (uint8_t i = 0; buffer[i] != '\0'; i++)
     {

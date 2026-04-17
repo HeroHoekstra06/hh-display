@@ -12,6 +12,7 @@ void setup()
   display.start();
   display.clear();
 
+  display.getTypography().setCharGap(5);
   display.getAlignment().setHFlag(HAlignFlag::Right);
   display.getAlignment().setVFlag(VAlignFlag::Center);
 

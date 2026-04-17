@@ -50,7 +50,7 @@ bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
   uint16_t charsToCopy = std::min<uint16_t>(bufferSize - 1, remainingChars);
 
   memcpy(buffer, currentStr.c_str() + mCurrentPart, charsToCopy);
-  buffer[bufferSize] = '\0';
+  buffer[charsToCopy] = '\0';
 
   mCurrentPart += charsToCopy;
 
@@ -66,8 +66,6 @@ bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
 
 uint16_t DisplayText::getLineAmount(uint16_t lineSize)
 {
-  if (mLineAmount > 0) return mLineAmount;
-
   uint16_t savedPos = mCurrentPos;
   mCurrentPos = 0;
 
@@ -101,4 +99,6 @@ uint16_t DisplayText::getLineSize(uint16_t line)
     
     lineSize++;
   }
+
+  return mLineSizes[line];
 }

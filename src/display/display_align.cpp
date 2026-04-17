@@ -13,10 +13,6 @@ int16_t DisplayAlign::findStartX(uint16_t textSize, const DisplayMargin& margin,
   int16_t innerWidth = screenWidth - margin.getHorizontal();
   int16_t useableSpace = innerWidth - stringWidth;
 
-  Serial.println(stringWidth);
-  Serial.println(innerWidth);
-  Serial.println(useableSpace);
-
   if (mHFlag == HAlignFlag::Left)
   {
     return margin.getLeft();

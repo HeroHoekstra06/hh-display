@@ -24,6 +24,7 @@ class NetworkManager
   private:
     int m_port;                             /// The port the server is running on
     int m_server_fd;                        /// The "id" of the server
+    int m_buffer_size;                      /// The amount of bytes which can be recieved
     DataCallback m_callback;
 
     std::atomic<bool> m_running;            /// If the server is running
@@ -44,7 +45,7 @@ class NetworkManager
      * @param callback The callback which will execute when recieving data
      */
     NetworkManager(int port, DataCallback callback)
-    : m_port(port), m_callback(callback), m_running(false), m_server_fd(-1)
+    : m_port(port), m_callback(callback), m_buffer_size(4096), m_running(false), m_server_fd(-1)
     {}
 
     /**
@@ -73,6 +74,14 @@ class NetworkManager
      * @returns If the data was successfully send
      */
     bool sendData(int client_fd, const std::vector<uint8_t>& data);
+
+
+    // Getters
+    int getBufferSize() { return m_buffer_size; }
+
+
+    // Setters
+    void setBufferSize(int bufferSize) { m_buffer_size = bufferSize; }
   
 };
 

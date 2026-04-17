@@ -128,7 +128,7 @@ void NetworkManager::acceptNewClient()
 void NetworkManager::handleClientData(size_t poll_index)
 {
   int client_fd = m_poll_fds[poll_index].fd;
-  std::vector<uint8_t> buffer(4096);
+  std::vector<uint8_t> buffer(m_buffer_size);
 
   ssize_t bytes_read = recv(client_fd, buffer.data(), buffer.size(), 0);
 

@@ -1,32 +1,64 @@
 #include "display/display_text.h"
 
+#include <cstring>
 
-bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
+
+// Private
+void DisplayText::initializeLines()
 {
-  if (mCurrentPos >= mLength) return false;
+  std::string buffer = "";
 
-  uint16_t i = 0;
-  while (i < (bufferSize - 1) && mCurrentPos < mLength)
+  for (char c : mText)
   {
-    char c = mRawString[mCurrentPos];
-
     if (c == '\n')
     {
-      mCurrentPos++;
-      break;
-    }
-    else if (c == '\0')
-    {
-      mCurrentPos = mLength;
-      break;
+      // Push the buffer to `mLines` and make it an empty string again
+      uint16_t size = buffer.size();
+
+      mLines.push_back(buffer);
+      mLineSizes.push_back(size);
+
+      if (mLongestLine < size) mLongestLine = size;
+
+      buffer = "";
+
+      continue;
     }
 
-    buffer[i++] = c;
+    buffer += c;
+  }
+
+  // Push the last line to the buffer, as it won't trigger the `if` in the loop
+  uint16_t size = buffer.size();
+  mLines.push_back(buffer);
+  mLineSizes.push_back(size);
+
+  if (mLongestLine < size) mLongestLine = size;
+
+  mLineAmount = mLines.size();
+}
+
+
+// Public
+bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
+{
+  if (mCurrentPos >= mLineAmount) return false;
+
+  const std::string& currentStr = mLines[mCurrentPos];
+
+  uint16_t remainingChars = currentStr.length() - mCurrentPart;
+  uint16_t charsToCopy = std::min<uint16_t>(bufferSize - 1, remainingChars);
+
+  memcpy(buffer, currentStr.c_str() + mCurrentPart, charsToCopy);
+  buffer[charsToCopy] = '\0';
+
+  mCurrentPart += charsToCopy;
+
+  if (mCurrentPart >= currentStr.length())
+  {
+    mCurrentPart = 0;
     mCurrentPos++;
   }
-  buffer[i] = '\0';
-
-  if (i == 0 && mCurrentPos >= mLength) return false;
 
   return true;
 }
@@ -34,8 +66,6 @@ bool DisplayText::getLine(char* buffer, uint16_t bufferSize)
 
 uint16_t DisplayText::getLineAmount(uint16_t lineSize)
 {
-  if (mLineAmount > 0) return mLineAmount;
-
   uint16_t savedPos = mCurrentPos;
   mCurrentPos = 0;
 
@@ -46,4 +76,29 @@ uint16_t DisplayText::getLineAmount(uint16_t lineSize)
   mCurrentPos = savedPos;
   mLineAmount = i;
   return i;
+}
+
+uint16_t DisplayText::getLineSize(uint16_t line)
+{
+  // Check if this function has already been done
+  if (mLineSizes.size() > 0)
+  {
+    if (line > mLineAmount) return 0;
+    else return mLineSizes[line];
+  }
+  
+  // Only end up here if mLineSizes has not been "initialized" yet
+  uint16_t lineSize = 0;
+  for (char c : mText)
+  {
+    if (c == '\n')
+    {
+      mLineSizes.push_back(lineSize);
+      lineSize = 0;
+    }
+    
+    lineSize++;
+  }
+
+  return mLineSizes[line];
 }

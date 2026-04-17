@@ -2,6 +2,7 @@
 #define DISPLAY_TEXT_H
 
 #include <string>
+#include <vector>
 
 
 /**
@@ -10,12 +11,24 @@
 class DisplayText
 {
   private:
-    const std::string mText;  ///< Stored text for later use.
-    const char *mRawString;   ///< Stored text as a raw string.
+    const std::string mText;          ///< Stored text for later use.
+    const char *mRawString;           ///< Stored text as a raw string.
 
-    const uint16_t mLength;   ///< The size of the stored string.
-    uint16_t mCurrentPos;     ///< The current position for the `DisplayText::getLine()` function.
-    uint16_t mLineAmount;     ///< The amount of lines that are send to the screen
+    const uint16_t mLength;           ///< The size of the stored string.
+    uint16_t mCurrentPos;             ///< The current position for the `DisplayText::getLine()` function.
+    
+    uint16_t mLineAmount;             ///< The amount of lines that are send to the screen
+    uint16_t mLongestLine;            ///< The longest line in the text
+    uint16_t mCurrentPart;            ///< The place where `DisplayText::getLine` last left off
+
+    std::vector<uint16_t> mLineSizes; ///< The calculated line sizes
+    std::vector<std::string> mLines;  ///< `mText` split up into an array of lines
+
+    /**
+     * @brief Loops through the text and fills `mLines` with different lines of text
+     * @note Lines are determined by a newline character (`\n`)
+    */
+    void initializeLines();
 
   public:
     /**
@@ -28,7 +41,9 @@ class DisplayText
     DisplayText(const std::string& text)
     : mText(text), mRawString(mText.c_str()), 
       mLength(text.length()), mCurrentPos(0), mLineAmount(0)
-    {}
+    {
+      initializeLines();
+    }
 
 
     /**
@@ -47,6 +62,13 @@ class DisplayText
      * If the text somehow got altered the line amount may be incorrect.
     */
     uint16_t getLineAmount(uint16_t lineSize);
+
+    /**
+     * @brief Gets the amount of characters in one line
+     * @param line The line index
+     * @return The amount of characters
+     */
+    uint16_t getLineSize(uint16_t line);
 
 
     // Getters

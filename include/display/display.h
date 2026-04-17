@@ -8,6 +8,7 @@
 #include "display/display_align.h"
 #include "display/display_text.h"
 #include "display/display_margin.h"
+#include "display/display_typography.h"
 
 
 /**
@@ -16,16 +17,17 @@
 class Display
 {
   private:
-    Adafruit_SSD1306 mDisplay;  ///< The actual display screen
+    Adafruit_SSD1306 mDisplay;      ///< The actual display screen
 
-    uint8_t mScreenWidth;       ///< The width of the screen
-    uint8_t mScreenHeight;      ///< The height of the screen
-    uint8_t mAddress;           ///< The address of the screen (default is 0x3C, but if that doesn't work, try 0x3D)
-    int8_t mOledReset;          ///< The reset pin for the screen (-1 for no reset pin)
+    uint8_t mScreenWidth;           ///< The width of the screen
+    uint8_t mScreenHeight;          ///< The height of the screen
+    uint8_t mAddress;               ///< The address of the screen (default is 0x3C, but if that doesn't work, try 0x3D)
+    int8_t mOledReset;              ///< The reset pin for the screen (-1 for no reset pin)
 
-    uint8_t mPrintSize;         ///< The size at which the text is printed
-    DisplayAlign mAlignment;    ///< The alignment of the printed text
-    DisplayMargin mMargin;      ///< The margins which will leave a gap between the edge of the screen and the text
+    uint8_t mPrintSize;             ///< The size at which the text is printed
+    DisplayAlign mAlignment;        ///< The alignment of the printed text
+    DisplayMargin mMargin;          ///< The margins which will leave a gap between the edge of the screen and the text
+    DisplayTypography mTypography;  ///< The gap between characters
 
   public:
     /**
@@ -38,7 +40,7 @@ class Display
     Display(uint8_t width, uint8_t height, int8_t oledReset, uint8_t address=0x3C)
     : mScreenWidth(width), mScreenHeight(height), 
       mOledReset(oledReset), mAddress(address),
-      mPrintSize(2), mMargin(0), mAlignment(DisplayAlign{}),
+      mPrintSize(2), mMargin(0), mAlignment(DisplayAlign{}), mTypography(DisplayTypography{}),
       mDisplay(Adafruit_SSD1306{width, height, &Wire, oledReset})
     {}
 
@@ -72,6 +74,15 @@ class Display
      */
     void print(DisplayText text);
 
+    /**
+     * @brief Prints a string to the screen on one line
+     * @param text The string that will be printed
+     * @note When there is a newline character (`\n`), it will switch over to the next line
+     * @note When there is a terminator character (`\0`), it will stop printing
+     * @note If `Display::clear()` is not called, characters will overlap
+    */
+   void println(DisplayText text);
+
 
     // Getters
     /// @return The width of the screen in pixels.
@@ -104,6 +115,9 @@ class Display
     /// @return The margins which will leave a gap between the edge of the screen and the text
     DisplayMargin& getMargin() { return mMargin; }
 
+    /// @return The gap between characters
+    DisplayTypography& getTypography() { return mTypography; } 
+
 
     // Setters
     /// @param size Sets the text size of characters that are printed to the screen
@@ -116,6 +130,9 @@ class Display
     /// @param margin Sets the margins of the screen
     /// @note Any size larger than 5 may create too little room for characters
     void setMargin(const DisplayMargin& margin) { mMargin = margin; }
+
+    /// @param typography Sets the gap betwen characters on the X axis and lineheight
+    void setTypography(const DisplayTypography& typography) { mTypography = typography; }
 
 };
 

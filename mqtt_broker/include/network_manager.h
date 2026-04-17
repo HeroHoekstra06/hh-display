@@ -4,6 +4,9 @@
 #include <iostream>
 #include <functional>
 #include <vector>
+#include <atomic>
+#include <thread>
+#include <mutex>
 
 
 using DataCallback = std::function<void(int client_fd, const std::vector<uint8_t>& data)>;
@@ -14,6 +17,20 @@ using DataCallback = std::function<void(int client_fd, const std::vector<uint8_t
 class NetworkManager
 {
   private:
+    int m_port;                             /// The port the server is running on
+    int m_server_fd;                        /// The "id" of the server
+    DataCallback m_callback;
+
+    std::atomic<bool> m_running;            /// If the server is running
+    std::thread m_worker_thread;            /// The worker thread where everything runs
+
+    std::mutex m_clients_mutex;             /// The clients as a mutex
+    std::vector<struct pollfd> m_poll_fds;  /// Weet ik nog niet
+
+    void serverLoop();
+    void acceptNewClient();
+    void handleClientData(size_t poll_index);
+    void removeClient();
 
   public:
     /**
@@ -21,7 +38,9 @@ class NetworkManager
      * @param port The port on which the network manager will listen and send
      * @param callback The callback which will execute when recieving data
      */
-    NetworkManager(uint8_t port, DataCallback callback);
+    NetworkManager(uint8_t port, DataCallback callback)
+    : m_port(port), m_callback(callback), m_running(false), m_server_fd(-1)
+    {}
 
     /**
      * @brief Deconstructs the network manager safely by calling `NetworkManager::stop()`
@@ -38,6 +57,13 @@ class NetworkManager
      * @brief Stops the network manager and frees up the port again
     */
     void stop();
+
+    /**
+     * @brief Sends a payload to a specific client
+     * @returns If the data was successfully send
+     */
+    bool sendData(int client_fd, const std::vector<uint8_t>& data);
+  
 };
 
 

@@ -43,7 +43,7 @@ class NetworkManager
      * @param port The port on which the network manager will listen and send
      * @param callback The callback which will execute when recieving data
      */
-    NetworkManager(uint8_t port, DataCallback callback)
+    NetworkManager(int port, DataCallback callback)
     : m_port(port), m_callback(callback), m_running(false), m_server_fd(-1)
     {}
 

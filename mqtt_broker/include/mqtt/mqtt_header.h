@@ -11,6 +11,7 @@ enum MQTTHeaderType : uint8_t
   Publish = 3,
   Puback = 4,
   Pubrec = 5,
+  Pubrel = 6,
   Pubcomp = 7,
   Subscribe = 8,
   Suback = 9,
@@ -20,6 +21,15 @@ enum MQTTHeaderType : uint8_t
   Pingresp = 13,
   Disconnect = 14,
   Auth = 15
+};
+
+enum MQTTPublishFlags : uint8_t
+{
+  Retain = 0x01,
+  QOS_0 = 0x00,
+  QOS_1 = 0x02,
+  QOS_2 = 0x04,
+  Dup = 0x08
 };
 
 
@@ -34,7 +44,7 @@ class MQTTHeader
         uint8_t flags : 4;  /// Second nibble (LSB)
         uint8_t type  : 4;  /// First nibble (MSB)
       };
-    } m_data;                 /// The request header data
+    } m_data;               /// The request header data
     
   public:
     /**
@@ -48,13 +58,36 @@ class MQTTHeader
      */
     MQTTHeader(uint8_t byte) { m_data.raw = byte; }
 
+
+    /**
+     * @brief Checks if the packet is retained
+     * @returns If the packet is retained
+     */
+    bool isRetained()
+    {
+      return (getType() == Publish) && (m_data.flags & Retain);
+    }
+
+    /**
+     * @brief Gets the quality of service of the packet
+     * @returns The QOS
+     */
+    uint8_t getQos()
+    {
+      if (getType() == Publish)
+      {
+        return (m_data.flags & 0x06) >> 1;
+      }
+      return 0;
+    }
+
     
     // Getters
     /// @returns The type of the request
     MQTTHeaderType getType() { return static_cast<MQTTHeaderType>(m_data.type); }
 
     /// @returns The flags of the request
-    uint8_t getFlags() { return m_data.flags; }
+    MQTTPublishFlags getFlags() { return static_cast<MQTTPublishFlags>(m_data.flags); }
 
 };
 

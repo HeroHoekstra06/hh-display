@@ -7,7 +7,7 @@ set(INC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 add_executable(
   mqtt_broker 
   ${SRC}/main.cpp
-  ${SRC}/network_manager.cpp
+  ${SRC}/network/network_manager.cpp
 )
 
 target_include_directories(mqtt_broker PRIVATE ${INC})

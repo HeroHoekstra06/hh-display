@@ -1,5 +1,5 @@
-#ifndef MQTT_HEADER_H
-#define MQTT_HEADER_H
+#ifndef MQTT_FIXED_HEADER_H
+#define MQTT_FIXED_HEADER_H
 
 #include  <stdint.h>
 
@@ -97,4 +97,4 @@ class MQTTFixedHeader
 };
 
 
-#endif//MQTT_HEADER_H
+#endif//MQTT_FIXED_HEADER_H

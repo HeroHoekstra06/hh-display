@@ -7,12 +7,6 @@
 #include "mqtt/mqtt_var_header.h"
 
 
-class MQTTBody
-{
-
-};
-
-
 class MQTTPacket
 {
   private:

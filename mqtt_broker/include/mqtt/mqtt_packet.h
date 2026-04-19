@@ -1,7 +1,10 @@
 #ifndef MQTT_PACKET_H
 #define MQTT_PACKET_H
 
+#include <memory>
+
 #include "mqtt/mqtt_fixed_header.h"
+#include "mqtt/mqtt_var_header.h"
 
 
 class MQTTBody
@@ -13,15 +16,16 @@ class MQTTBody
 class MQTTPacket
 {
   private:
-    MQTTFixedHeader m_header;  /// Metadata from the package which helps to identify important information
+    MQTTFixedHeader m_fixedHeader;                /// Metadata from the packet which says what protocol to use
+    std::unique_ptr<MQTTVarHeader> m_varHeader;   /// Metadata from the packet how to interperet data
 
   public:
     /**
      * @brief Constructs an empty packet with only a header
      * @param header an `MQTTHeader` to give information about the packet
      */
-    MQTTPacket(MQTTFixedHeader header)
-    : m_header(header)
+    MQTTPacket(MQTTFixedHeader fixedHeader, std::unique_ptr<MQTTVarHeader> varHeader = nullptr)
+    : m_fixedHeader(fixedHeader), m_varHeader(std::move(varHeader))
     {}
 
 

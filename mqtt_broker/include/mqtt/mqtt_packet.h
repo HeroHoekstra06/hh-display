@@ -1,7 +1,7 @@
 #ifndef MQTT_PACKET_H
 #define MQTT_PACKET_H
 
-#include "mqtt/mqtt_header.h"
+#include "mqtt/mqtt_fixed_header.h"
 
 
 class MQTTBody
@@ -13,14 +13,14 @@ class MQTTBody
 class MQTTPacket
 {
   private:
-    MQTTHeader m_header;  /// Metadata from the package which helps to identify important information
+    MQTTFixedHeader m_header;  /// Metadata from the package which helps to identify important information
 
   public:
     /**
      * @brief Constructs an empty packet with only a header
      * @param header an `MQTTHeader` to give information about the packet
      */
-    MQTTPacket(MQTTHeader header)
+    MQTTPacket(MQTTFixedHeader header)
     : m_header(header)
     {}
 

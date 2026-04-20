@@ -5,6 +5,7 @@
 
 #include "mqtt/mqtt_fixed_header.h"
 #include "mqtt/mqtt_var_header.h"
+#include "mqtt/mqtt_body.h"
 
 
 class MQTTPacket
@@ -12,16 +13,7 @@ class MQTTPacket
   private:
     MQTTFixedHeader m_fixedHeader;                /// Metadata from the packet which says what protocol to use
     std::unique_ptr<MQTTVarHeader> m_varHeader;   /// Metadata from the packet how to interperet data
-
-  public:
-    /**
-     * @brief Constructs an empty packet with only a header
-     * @param header an `MQTTHeader` to give information about the packet
-     */
-    MQTTPacket(MQTTFixedHeader fixedHeader, std::unique_ptr<MQTTVarHeader> varHeader = nullptr)
-    : m_fixedHeader(fixedHeader), m_varHeader(std::move(varHeader))
-    {}
-
+    MQTTBody m_body;                              /// The actual data from the packet
 
     /**
      * @brief Decodes the variable-length "Remaining length" field
@@ -29,7 +21,7 @@ class MQTTPacket
      * @param outValue Pointer to store the decoded length
      * @returns The number of bytes consumed (1-4) or 0 if invalid
      */
-    uint8_t decodeRemainingLength(const uint8_t* stream, uint32_t& outValue)
+    static uint8_t decodeRemainingLength(const uint8_t* stream, size_t maxLength, uint32_t& outValue)
     {
       uint32_t multiplier = 1;
       outValue = 0;
@@ -38,6 +30,8 @@ class MQTTPacket
 
       do
       {
+        if (bytesRead >= maxLength) return 0;
+
         encodedByte = stream[bytesRead++];
         outValue += (encodedByte & 127) * multiplier;
 
@@ -50,6 +44,68 @@ class MQTTPacket
       } while ((encodedByte & 128) != 0);
       
       return bytesRead;
+    }
+
+  public:
+    /**
+     * @brief Constructs an empty packet with only a header
+     * @param header an `MQTTHeader` to give information about the packet
+     */
+    MQTTPacket(MQTTFixedHeader fixedHeader, std::unique_ptr<MQTTVarHeader> varHeader, MQTTBody body)
+    : m_fixedHeader(fixedHeader), m_varHeader(std::move(varHeader)), m_body(std::move(body))
+    {}
+
+
+    static std::unique_ptr<MQTTPacket> parse(const std::vector<uint8_t>& data)
+    {
+      if (data.size() < 2)
+      {
+        // The packet is too small to be valid
+        return nullptr;
+      }
+
+      uint32_t remainingLength = 0;
+      uint8_t lengthBytesRead = decodeRemainingLength(data.data()+1, data.size()-1, remainingLength);
+
+      if (lengthBytesRead == 0) 
+      {
+        // The length is malformed
+        return nullptr;
+      }
+
+      if (data.size() < 1 + lengthBytesRead + remainingLength)
+      {
+        // Check if the enitre packet was recieved
+        return nullptr;
+      }
+
+      MQTTFixedHeader fixedHeader{data[0], remainingLength};
+
+      std::unique_ptr<MQTTVarHeader> varHeader = nullptr;
+      size_t varHeaderLength = 0;
+
+      switch (fixedHeader.getType())
+      {
+        case Publish:
+          // TODO: create publish header
+          break;
+
+        case Connect:
+          // TODO: create connect header
+          break;
+        
+        default:
+          // TODO: create packetId header
+          break;
+      }
+
+      size_t payloadStart = 1 + lengthBytesRead + varHeaderLength;
+      size_t payloadLength = remainingLength - varHeaderLength;
+      std::vector<uint8_t> payloadBytes{data.begin() + payloadStart, data.begin() + payloadStart + payloadLength};
+
+      MQTTBody body{payloadBytes};
+
+      return std::make_unique<MQTTPacket>(fixedHeader, std::move(varHeader), std::move(body));
     }
 
 };

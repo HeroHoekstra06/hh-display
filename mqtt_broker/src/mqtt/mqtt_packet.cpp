@@ -28,6 +28,37 @@ uint8_t MQTTPacket::decodeRemainingLength(const uint8_t* stream, size_t maxLengt
 }
 
 
+std::unique_ptr<MQTTPublishVarHeader> MQTTPacket::decodePublishVarHeader(
+  const std::vector<uint8_t>& data,
+  const MQTTFixedHeader& fixedHeader,
+  size_t& offset, 
+  size_t& varHeaderLength
+)
+{
+  if (offset + 2 > data.size()) return nullptr;
+  uint16_t topicLen = (data[offset] << 8 | data[offset + 1]);
+  offset += 2;
+
+  if (offset + topicLen > data.size()) return nullptr;
+  std::string topic(data.begin() + offset, data.begin() + offset + topicLen);
+  offset += topicLen;
+  varHeaderLength = 2 + topicLen;
+
+  uint16_t packetId = 0;
+  bool hasPacketId = fixedHeader.getQos() > 0;
+
+  if (hasPacketId)
+  {
+    if (offset + 2 > data.size()) return nullptr;
+    packetId = (data[offset] << 8 | data[offset + 1]);
+    varHeaderLength += 2;
+    offset += 2;
+  }
+
+  return std::make_unique<MQTTPublishVarHeader>(topic, packetId, hasPacketId);
+}
+
+
 // Public
 std::unique_ptr<MQTTPacket> MQTTPacket::parse(const std::vector<uint8_t>& data)
 {
@@ -64,26 +95,19 @@ std::unique_ptr<MQTTPacket> MQTTPacket::parse(const std::vector<uint8_t>& data)
   {
     case Publish:
     {
-      if (offset + 2 > data.size()) return nullptr;
-      uint16_t topicLen = (data[offset] << 8 | data[offset + 1]);
-      offset += 2;
+      varHeader = decodePublishVarHeader(
+        data,
+        fixedHeader,
+        offset,
+        varHeaderLength
+      );
 
-      if (offset + topicLen > data.size()) return nullptr;
-      std::string topic(data.begin() + offset, data.begin() + offset + topicLen);
-      offset += topicLen;
-      varHeaderLength = 2 + topicLen;
-
-      uint16_t packetId = 0;
-      bool hasPacketId = fixedHeader.getQos() > 0;
-
-      if (hasPacketId)
+      if (!varHeader)
       {
-        if (offset + 2 > data.size()) return nullptr;
-        packetId = (data[offset] << 8 | data[offset + 1]);
-        varHeaderLength += 2;
+        // Return if the variable header is a nullptr
+        return nullptr;
       }
 
-      varHeader = std::make_unique<MQTTPublishVarHeader>(topic, packetId, hasPacketId);
       break;
     }
 

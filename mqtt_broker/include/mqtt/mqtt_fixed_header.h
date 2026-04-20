@@ -74,15 +74,15 @@ class MQTTFixedHeader
      * @brief Gets the quality of service of the packet
      * @returns The QOS
      */
-    uint8_t getQos();
+    uint8_t getQos() const;
 
     
     // Getters
     /// @returns The type of the request
-    MQTTHeaderType getType() { return static_cast<MQTTHeaderType>(m_data.type); }
+    MQTTHeaderType getType() const { return static_cast<MQTTHeaderType>(m_data.type); }
 
     /// @returns The flags of the request
-    MQTTPublishFlags getFlags() { return static_cast<MQTTPublishFlags>(m_data.flags); }
+    MQTTPublishFlags getFlags() const { return static_cast<MQTTPublishFlags>(m_data.flags); }
 
 };
 

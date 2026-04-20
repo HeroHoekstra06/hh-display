@@ -23,6 +23,21 @@ class MQTTPacket
      */
     static uint8_t decodeRemainingLength(const uint8_t* stream, size_t maxLength, uint32_t& outValue);
 
+    /**
+     * @brief Decodes the publish variable header
+     * @param data The byte array of the packet
+     * @param fixedHeader The fixed header of this packet
+     * @param offset The current offset of bytes
+     * @param varHeaderLength The length of bytes the header is in total
+     * @returns A unique pointer to the `MQTTPublishVarHeader` of this packet
+     */
+    static std::unique_ptr<MQTTPublishVarHeader> decodePublishVarHeader(
+      const std::vector<uint8_t>& data, 
+      const MQTTFixedHeader& fixedHeader, 
+      size_t& offset, 
+      size_t& varHeaderLength
+    );
+
   public:
     /**
      * @brief Constructs an empty packet with only a header

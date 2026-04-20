@@ -7,7 +7,7 @@ bool MQTTFixedHeader::isRetained()
 }
 
 
-uint8_t MQTTFixedHeader::getQos()
+uint8_t MQTTFixedHeader::getQos() const
 {
   if (getType() == Publish)
   {

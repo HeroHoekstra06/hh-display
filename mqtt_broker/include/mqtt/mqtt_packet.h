@@ -56,6 +56,10 @@ class MQTTPacket
     {}
 
 
+    /**
+     * @brief Creates a `MQTTPacket` from an array of bytes
+     * @param data A byte array reprisented by `uint8_t`
+     */
     static std::unique_ptr<MQTTPacket> parse(const std::vector<uint8_t>& data)
     {
       if (data.size() < 2)

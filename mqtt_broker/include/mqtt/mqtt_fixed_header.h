@@ -68,23 +68,13 @@ class MQTTFixedHeader
      * @brief Checks if the packet is retained
      * @returns If the packet is retained
      */
-    bool isRetained()
-    {
-      return (getType() == Publish) && (m_data.flags & Retain);
-    }
+    bool isRetained();
 
     /**
      * @brief Gets the quality of service of the packet
      * @returns The QOS
      */
-    uint8_t getQos()
-    {
-      if (getType() == Publish)
-      {
-        return (m_data.flags & 0x06) >> 1;
-      }
-      return 0;
-    }
+    uint8_t getQos();
 
     
     // Getters

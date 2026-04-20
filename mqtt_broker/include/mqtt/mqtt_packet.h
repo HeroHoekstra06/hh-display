@@ -132,9 +132,25 @@ class MQTTPacket
           varHeader = std::make_unique<MQTTConnectVarHeader>(flags, keepAlive, level);
           break; 
         }
+
+        case Puback:
+        case Pubrec:
+        case Pubrel:
+        case Pubcomp:
+        case Subscribe:
+        case Suback:
+        case Unsubscribe:
+        case Unsuback:
+        {
+          if (offset + 2 > data.size()) return nullptr;
+          uint16_t packetId = (data[offset] << 8 | data[offset + 1]);
+          varHeaderLength = 2;
+          varHeader = std::make_unique<MQTTPacketIdVarHeader>(packetId);
+          break;
+        }
         
         default:
-          // TODO: create packetId header
+          varHeaderLength = 0;
           break;
       }
 

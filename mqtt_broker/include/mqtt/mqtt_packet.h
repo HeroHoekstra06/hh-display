@@ -86,6 +86,7 @@ class MQTTPacket
 
       size_t offset = 1 + lengthBytesRead;
 
+      // TODO: refactor into multiple smaller functions
       switch (fixedHeader.getType())
       {
         case Publish:
@@ -114,8 +115,23 @@ class MQTTPacket
         }
 
         case Connect:
-          // TODO: create connect header
-          break;
+        {
+          if (offset + data.size()) return nullptr;
+          uint16_t protoLen = (data[offset] << 8 | data[offset + 1]);
+          offset += 2;
+
+          if (offset + protoLen > data.size()) return nullptr;
+          offset += protoLen;
+
+          if (offset + 4 > data.size()) return nullptr;
+          uint8_t level = data[offset++];
+          uint8_t flags = data[offset++];
+          uint16_t keepAlive = (data[offset] << 8 | data[offset + 1]);
+
+          varHeaderLength = 2 + protoLen + 4;
+          varHeader = std::make_unique<MQTTConnectVarHeader>(flags, keepAlive, level);
+          break; 
+        }
         
         default:
           // TODO: create packetId header

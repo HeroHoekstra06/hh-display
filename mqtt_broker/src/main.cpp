@@ -1,16 +1,18 @@
 #include "network/network_manager.h"
+#include "mqtt/mqtt_packet.h"
 
 void onDataRecieved(int client_id, const std::vector<uint8_t>& data)
 {
   std::cout << "Recieved " << data.size() << " bytes from " << client_id << std::endl;
   
-  std::cout << "Bytes data as chars:" << std::endl;
-  for (uint8_t byte : data)
+  std::unique_ptr<MQTTPacket> packet = MQTTPacket::parse(data);
+  if (!packet)
   {
-    char c = static_cast<char>(byte);
-    std::cout << c;
+    std::cerr << "Error: Could not parse packet" << std::endl;
+    return;
   }
-  std::cout << std::endl;
+
+  const MQTTBody& body = packet->getBody();
 }
 
 int main()

@@ -54,6 +54,17 @@ class MQTTPacket
      */
     static std::unique_ptr<MQTTPacket> parse(const std::vector<uint8_t>& data);
 
+
+    // Getters
+    /// @returns The fixed header of the packet
+    const MQTTFixedHeader& getFixedHeader() { return m_fixedHeader; }
+
+    /// @returns The variable header of the packet
+    const MQTTVarHeader& getVarHeader() { return m_varHeader; }
+
+    /// @returns The contents of the packet
+    const MQTTBody& getBody() { return m_body; }
+
 };
 
 

@@ -35,11 +35,17 @@ std::unique_ptr<MQTTPublishVarHeader> MQTTPacket::decodePublishVarHeader(
   size_t& varHeaderLength
 )
 {
-  if (offset + 2 > data.size()) return nullptr;
+  if (offset + 2 > data.size())
+  {
+    return nullptr;
+  }
   uint16_t topicLen = (data[offset] << 8 | data[offset + 1]);
   offset += 2;
 
-  if (offset + topicLen > data.size()) return nullptr;
+  if (offset + topicLen > data.size())
+  {
+    return nullptr;
+  }
   std::string topic(data.begin() + offset, data.begin() + offset + topicLen);
   offset += topicLen;
   varHeaderLength = 2 + topicLen;
@@ -49,7 +55,10 @@ std::unique_ptr<MQTTPublishVarHeader> MQTTPacket::decodePublishVarHeader(
 
   if (hasPacketId)
   {
-    if (offset + 2 > data.size()) return nullptr;
+    if (offset + 2 > data.size())
+    {
+      return nullptr;
+    }
     packetId = (data[offset] << 8 | data[offset + 1]);
     varHeaderLength += 2;
     offset += 2;
@@ -66,20 +75,48 @@ std::unique_ptr<MQTTConnectVarHeader> MQTTPacket::decodeConnectVarHeader(
   size_t& varHeaderLength
 )
 {
-  if (offset + data.size()) return nullptr;
+  if (offset + data.size())
+  { 
+    return nullptr;
+  }
   uint16_t protoLen = (data[offset] << 8 | data[offset + 1]);
   offset += 2;
 
-  if (offset + protoLen > data.size()) return nullptr;
+  if (offset + protoLen > data.size())
+  { 
+    return nullptr;
+  }
   offset += protoLen;
 
-  if (offset + 4 > data.size()) return nullptr;
+  if (offset + 4 > data.size()) 
+  {
+    return nullptr;
+  }
+
   uint8_t level = data[offset++];
   uint8_t flags = data[offset++];
   uint16_t keepAlive = (data[offset] << 8 | data[offset + 1]);
 
   varHeaderLength = 2 + protoLen + 4;
   return std::make_unique<MQTTConnectVarHeader>(flags, keepAlive, level);
+}
+
+
+std::unique_ptr<MQTTPacketIdVarHeader> MQTTPacket::decodePacketIdVarHeader(
+  const std::vector<uint8_t>& data,
+  size_t& offset, 
+  size_t& varHeaderLength
+)
+{
+  if (offset + 2 > data.size())
+  { 
+    return nullptr;
+  }
+
+  uint16_t packetId = (data[offset] << 8 | data[offset + 1]);
+  varHeaderLength = 2;
+
+  return std::make_unique<MQTTPacketIdVarHeader>(packetId);
 }
 
 
@@ -114,18 +151,11 @@ std::unique_ptr<MQTTPacket> MQTTPacket::parse(const std::vector<uint8_t>& data)
 
   size_t offset = 1 + lengthBytesRead;
 
-  // TODO: refactor into multiple smaller functions
   switch (fixedHeader.getType())
   {
     case Publish:
     {
-      varHeader = decodePublishVarHeader(
-        data,
-        fixedHeader,
-        offset,
-        varHeaderLength
-      );
-
+      varHeader = decodePublishVarHeader(data, fixedHeader, offset, varHeaderLength);
       if (!varHeader)
       {
         // Return if the variable header is a nullptr
@@ -137,13 +167,7 @@ std::unique_ptr<MQTTPacket> MQTTPacket::parse(const std::vector<uint8_t>& data)
 
     case Connect:
     {
-      varHeader = decodeConnectVarHeader(
-        data,
-        fixedHeader,
-        offset,
-        varHeaderLength
-      );
-
+      varHeader = decodeConnectVarHeader(data, fixedHeader, offset, varHeaderLength);
       if (!varHeader)
       {
         // Also return nullptr here because no variable header
@@ -162,10 +186,12 @@ std::unique_ptr<MQTTPacket> MQTTPacket::parse(const std::vector<uint8_t>& data)
     case Unsubscribe:
     case Unsuback:
     {
-      if (offset + 2 > data.size()) return nullptr;
-      uint16_t packetId = (data[offset] << 8 | data[offset + 1]);
-      varHeaderLength = 2;
-      varHeader = std::make_unique<MQTTPacketIdVarHeader>(packetId);
+      varHeader = decodePacketIdVarHeader(data, offset, varHeaderLength);
+      if (!varHeader)
+      {
+        return nullptr;
+      }
+      
       break;
     }
     

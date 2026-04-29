@@ -53,6 +53,19 @@ class MQTTPacket
       size_t& varHeaderLength
     );
 
+    /**
+     * @brief Decodes the packet id header
+     * @param data The byte array of the packet
+     * @param offset The current offset of bytes
+     * @param varHeaderLength The length of bytes the header is in total
+     * @returns A unique pointer to the `MQTTPacketIdVarHeader` of this packet
+     */
+    static std::unique_ptr<MQTTPacketIdVarHeader> decodePacketIdVarHeader(
+      const std::vector<uint8_t>& data, 
+      size_t& offset, 
+      size_t& varHeaderLength
+    );
+
   public:
     /**
      * @brief Constructs an empty packet with only a header

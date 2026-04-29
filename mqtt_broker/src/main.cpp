@@ -13,7 +13,7 @@ void onDataRecieved(int client_id, const std::vector<uint8_t>& data)
   }
 
   const MQTTBody& body = packet->getBody();
-  std::cout << body << std::endl;
+  std::cout << body.getString() << std::endl;
 }
 
 int main()

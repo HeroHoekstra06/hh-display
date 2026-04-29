@@ -42,9 +42,9 @@ class MQTTBody
 
     // Getters
     /// @returns The raw payload
-    const std::vector<uint8_t>& getPayload() { return m_payload; }
+    const std::vector<uint8_t>& getPayload() const { return m_payload; }
 
-    const std::string& getString() { return m_bodyString; }
+    const std::string& getString() const { return m_bodyString; }
 
     /// @returns The amount of bytes in the payload
     size_t getSize() { return m_payload.size(); }

@@ -1,4 +1,5 @@
 #include "mqtt/mqtt_packet.h"
+#include <iostream>
 
 
 // Private
@@ -75,7 +76,7 @@ std::unique_ptr<MQTTConnectVarHeader> MQTTPacket::decodeConnectVarHeader(
   size_t& varHeaderLength
 )
 {
-  if (offset + data.size())
+  if (offset > data.size())
   { 
     return nullptr;
   }

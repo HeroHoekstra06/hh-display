@@ -17,6 +17,7 @@ add_executable(
 
   ${SRC}/mqtt/var_headers/mqtt_connect_var_header.cpp
   ${SRC}/mqtt/var_headers/mqtt_packetid_var_header.cpp
+  ${SRC}/mqtt/var_headers/mqtt_publish_var_header.cpp
 )
 
 target_include_directories(mqtt_broker PRIVATE ${INC})

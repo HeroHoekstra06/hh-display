@@ -38,22 +38,46 @@ class NetworkManager
     void handleClientData(size_t poll_index);
     void removeClient();
 
-  public:
+
     /**
-     * @brief Constructs a network manager
-     * @param port The port on which the network manager will listen and send
-     * @param callback The callback which will execute when recieving data
+     * @brief Private constructor in order to follow the singleton pattern
      */
-    NetworkManager(int port, DataCallback callback)
-    : m_port(port), m_callback(callback), m_buffer_size(4096), m_running(false), m_server_fd(-1)
+    NetworkManager()
+    : m_port(0), m_server_fd(-1), m_buffer_size(4096), m_running(false)
     {}
 
     /**
-     * @brief Deconstructs the network manager safely by calling `NetworkManager::stop()`
+     * @brief Deconstructs the network safely by calling `NetworkManager::stop()`
      */
     ~NetworkManager()
     {
       stop();
+    }
+
+  public:
+    /**
+     * @brief Gets the Singleton instance of the NetworkManager
+     * @returns A reference to the single NetworkManager instance
+     */
+    static NetworkManager& getInstance()
+    {
+      static NetworkManager instance;
+      return instance;
+    }
+
+    // Delete copy constructor and assignment operator to prevent cloning
+    NetworkManager(const NetworkManager&) = delete;
+    NetworkManager& operator=(const NetworkManager&) = delete;
+
+    /**
+     * @brief Initializes the network manager with its required parameters. Call this before start().
+     * @param port The port on which the network manager will listen and send
+     * @param callback The callback which will execute when receiving data
+     */
+    void init(uint16_t port, DataCallback cb)
+    {
+      m_port = port;
+      m_callback = cb;
     }
 
     /**

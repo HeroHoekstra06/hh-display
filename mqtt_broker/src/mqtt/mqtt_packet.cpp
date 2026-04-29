@@ -174,77 +174,7 @@ std::unique_ptr<MQTTPacket> MQTTPacket::parse(const std::vector<uint8_t>& data)
 std::vector<uint8_t> MQTTPacket::serialize()
 {
   std::vector<uint8_t> packet;
-  std::vector<uint8_t> varHeaderBytes;
-
-  switch (m_fixedHeader.getType())
-  {
-    case Publish:
-    {
-      auto* pubHeader = dynamic_cast<MQTTPublishVarHeader*>(m_varHeader.get());
-      if (pubHeader)
-      {
-        uint16_t topicLen = pubHeader->getTopicName().length();
-        varHeaderBytes.push_back((topicLen >> 8) & 0xFF);
-        varHeaderBytes.push_back(topicLen & 0xFF);
-
-        for (char c : pubHeader->getTopicName()) varHeaderBytes.push_back(c);
-
-        if (pubHeader->getHasPacketId())
-        {
-          uint16_t pid = pubHeader->getPacketId();
-          varHeaderBytes.push_back((pid >> 8) & 0xFF);
-          varHeaderBytes.push_back(pid & 0xFF);
-        }
-      }
-
-      break;
-    }
-
-    case Connect:
-    {
-      auto* connHeader = dynamic_cast<MQTTConnectVarHeader*>(m_varHeader.get());
-      if (connHeader)
-      {
-        varHeaderBytes.push_back(0x00);
-        varHeaderBytes.push_back(0x04);
-
-        std::string protocolName = "MQTT";
-        for (char c : protocolName) varHeaderBytes.push_back(c);
-
-        varHeaderBytes.push_back(4);
-        varHeaderBytes.push_back(static_cast<uint8_t>(connHeader->getFlags()));
-
-        uint16_t keepAlive = connHeader->getKeepAlive();
-        varHeaderBytes.push_back((keepAlive >> 8) & 0xFF);
-        varHeaderBytes.push_back(keepAlive & 0xFF);
-      }
-
-      break;
-    }
-
-    case Puback:
-    case Pubrec:
-    case Pubrel:
-    case Pubcomp:
-    case Subscribe:
-    case Suback:
-    case Unsubscribe:
-    case Unsuback:
-    {
-      auto* idHeader = dynamic_cast<MQTTPacketIdVarHeader*>(m_varHeader.get());
-      if (idHeader)
-      {
-        uint16_t pid = idHeader->getPacketId();
-        varHeaderBytes.push_back((pid >> 8) & 0xFF);
-        varHeaderBytes.push_back(pid & 0xFF);
-      }
-
-      break;
-    }
-
-    default:
-      break;
-  }
+  std::vector<uint8_t> varHeaderBytes = m_varHeader->encode();
 
   const std::vector<uint8_t>& payload = m_body.getPayload();
   uint32_t remainingLength = varHeaderBytes.size() + payload.size();

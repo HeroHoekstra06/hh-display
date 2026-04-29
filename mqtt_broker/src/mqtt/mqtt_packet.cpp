@@ -137,6 +137,18 @@ std::unique_ptr<MQTTPacket> MQTTPacket::parse(const std::vector<uint8_t>& data)
 
     case Connect:
     {
+      varHeader = decodeConnectVarHeader(
+        data,
+        fixedHeader,
+        offset,
+        varHeaderLength
+      );
+
+      if (!varHeader)
+      {
+        // Also return nullptr here because no variable header
+        return nullptr;
+      }
 
       break; 
     }

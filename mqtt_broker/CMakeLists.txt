@@ -15,6 +15,7 @@ add_executable(
   ${SRC}/mqtt/mqtt_fixed_header.cpp
   ${SRC}/mqtt/mqtt_packet.cpp
 
+  ${SRC}/mqtt/var_headers/mqtt_connack_var_header.cpp
   ${SRC}/mqtt/var_headers/mqtt_connect_var_header.cpp
   ${SRC}/mqtt/var_headers/mqtt_packetid_var_header.cpp
   ${SRC}/mqtt/var_headers/mqtt_publish_var_header.cpp

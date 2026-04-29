@@ -1,6 +1,9 @@
 #include "network/network_manager.h"
 #include "mqtt/mqtt_packet.h"
 
+#define NETWORK_MANAGER NetworkManager::getInstance()
+
+
 void onDataRecieved(int client_id, const std::vector<uint8_t>& data)
 {
   std::cout << "Recieved " << data.size() << " bytes from " << client_id << std::endl;
@@ -12,6 +15,8 @@ void onDataRecieved(int client_id, const std::vector<uint8_t>& data)
     return;
   }
 
+  std::cout << packet->getBody().getString() << std::endl;
+
   if (packet->getFixedHeader().getType() == Connect)
   {
     // Create Connack Header
@@ -21,14 +26,16 @@ void onDataRecieved(int client_id, const std::vector<uint8_t>& data)
 
     MQTTPacket packet{fixedHeader, std::move(varHeader), std::move(body)};
     auto rawBytes = packet.serialize();
+
+    NETWORK_MANAGER.sendData(client_id, rawBytes);
   }
 }
 
 int main()
 {
-  NetworkManager manager{1883, onDataRecieved};
+  NETWORK_MANAGER.init(1883, onDataRecieved);
 
-  if (manager.start())
+  if (NETWORK_MANAGER.start())
   {
     while (true)
     {

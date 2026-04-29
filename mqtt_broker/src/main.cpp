@@ -12,8 +12,16 @@ void onDataRecieved(int client_id, const std::vector<uint8_t>& data)
     return;
   }
 
-  const MQTTBody& body = packet->getBody();
-  std::cout << body.getString() << std::endl;
+  if (packet->getFixedHeader().getType() == Connect)
+  {
+    // Create Connack Header
+    MQTTFixedHeader fixedHeader{(Connack << 4) | 0x00, 2};
+    auto varHeader = std::make_unique<MQTTConnackVarHeader>(0);
+    MQTTBody body;
+
+    MQTTPacket packet{fixedHeader, std::move(varHeader), std::move(body)};
+    auto rawBytes = packet.serialize();
+  }
 }
 
 int main()

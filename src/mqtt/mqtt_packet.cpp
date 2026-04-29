@@ -1,4 +1,6 @@
 #include "mqtt/mqtt_packet.h"
+
+#include <memory>
 #include <iostream>
 
 

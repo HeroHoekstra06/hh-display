@@ -2,6 +2,7 @@
 #define MQTT_PACKET_H
 
 #include <memory>
+#include <unordered_map>
 #include <functional>
 
 #include "mqtt/mqtt_fixed_header.h"
@@ -19,6 +20,7 @@ using DecodeFunc = std::function<std::unique_ptr<MQTTVarHeader>(
 static const std::unordered_map<MQTTHeaderType, DecodeFunc> DECODER_MAP{
   { Publish, MQTTPublishVarHeader::decode },
   { Connect, MQTTConnectVarHeader::decode },
+  { Connack, MQTTConnackVarHeader::decode },
   { Puback, MQTTPacketIdVarHeader::decode },
   { Pubrec, MQTTPacketIdVarHeader::decode },
   { Pubrel, MQTTPacketIdVarHeader::decode },

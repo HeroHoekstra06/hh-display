@@ -82,6 +82,12 @@ class MQTTPacket
      */
     static std::unique_ptr<MQTTPacket> parse(const std::vector<uint8_t>& data);
 
+    /**
+     * @brief Will convert the entire packet into a byte array ready to be send
+     * @returns A byte array reprisented with `uint_8`
+     */
+    std::vector<uint8_t> serialize();
+
 
     // Getters
     /// @returns The fixed header of the packet

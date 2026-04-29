@@ -27,6 +27,29 @@ class MQTTConnectVarHeader : public MQTTVarHeader
     {}
 
 
+    /**
+     * @brief Decodes the MQTT variable header from a byte array
+     * @param data The byte array of the packet
+     * @param fixedHeader The fixed header of this packet
+     * @param offset The current offset of bytes
+     * @param varHeaderLength The length of bytes the header is in total
+     * @returns An unique pointer to the `MQTTVarHeader` of this packet
+     */
+    std::unique_ptr<MQTTVarHeader> decode(  
+      const std::vector<uint8_t>& data,
+      const MQTTFixedHeader& fixedHeader,
+      size_t& offset, 
+      size_t& varHeaderLength
+    ) override;
+
+    /**
+     * @brief Encodes the variable header of this packet to a byte array
+     * @param varHeaderBytes The array of bytes which is used in making the final result
+     * @returns A byte array of the header
+     */
+    std::vector<uint8_t> encode(std::vector<uint8_t>& varHeaderBytes) override;
+
+
     // Getters
     /// @returns Single byte containing the username, password, will retain, will QOS, will flag and clean session
     uint16_t getFlags() { return m_connectFlags; }

@@ -3,7 +3,7 @@
 
 std::unique_ptr<MQTTVarHeader> MQTTPacketIdVarHeader::decode(
   const std::vector<uint8_t>& data,
-  const MQTTFixedHeader& fixedHeader, // Can be a nullptr, as it is not used but must be here for "inheritance" purposes
+  const MQTTFixedHeader& fixedHeader, // Can be a nullptr, as it is not used but must be here for "inheritance purposes"
   size_t& offset, 
   size_t& varHeaderLength
 )

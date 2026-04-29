@@ -35,22 +35,22 @@ std::unique_ptr<MQTTVarHeader> MQTTConnectVarHeader::decode(
 }
 
 
-std::vector<uint8_t> MQTTConnectVarHeader::encode(std::vector<uint8_t>& varHeaderBytes)
+std::vector<uint8_t> MQTTConnectVarHeader::encode()
 {
-  auto* connHeader = dynamic_cast<MQTTConnectVarHeader*>(this);
-  if (connHeader)
-  {
-    varHeaderBytes.push_back(0x00);
-    varHeaderBytes.push_back(0x04);
+  std::vector<uint8_t> result{};
 
-    std::string protocolName = "MQTT";
-    for (char c : protocolName) varHeaderBytes.push_back(c);
+  result.push_back(0x00);
+  result.push_back(0x04);
 
-    varHeaderBytes.push_back(4);
-    varHeaderBytes.push_back(static_cast<uint8_t>(connHeader->getFlags()));
+  std::string protocolName = "MQTT";
+  for (char c : protocolName) result.push_back(c);
 
-    uint16_t keepAlive = connHeader->getKeepAlive();
-    varHeaderBytes.push_back((keepAlive >> 8) & 0xFF);
-    varHeaderBytes.push_back(keepAlive & 0xFF);
-  }
+  result.push_back(4);
+  result.push_back(static_cast<uint8_t>(getFlags()));
+
+  uint16_t keepAlive = getKeepAlive();
+  result.push_back((keepAlive >> 8) & 0xFF);
+  result.push_back(keepAlive & 0xFF);
+
+  return result;
 }

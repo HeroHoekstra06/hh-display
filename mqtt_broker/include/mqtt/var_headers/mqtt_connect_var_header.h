@@ -47,7 +47,7 @@ class MQTTConnectVarHeader : public MQTTVarHeader
      * @param varHeaderBytes The array of bytes which is used in making the final result
      * @returns A byte array of the header
      */
-    std::vector<uint8_t> encode(std::vector<uint8_t>& varHeaderBytes) override;
+    std::vector<uint8_t> encode() override;
 
 
     // Getters

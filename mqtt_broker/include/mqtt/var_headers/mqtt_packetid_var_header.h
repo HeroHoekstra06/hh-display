@@ -29,16 +29,15 @@ class MQTTPacketIdVarHeader : public MQTTVarHeader
      * @param varHeaderLength The length of bytes the header is in total
      * @returns An unique pointer to the `MQTTVarHeader` of this packet
      */
-    std::unique_ptr<MQTTVarHeader> decode(
+    static std::unique_ptr<MQTTVarHeader> decode(
       const std::vector<uint8_t>& data,
       const MQTTFixedHeader& fixedHeader,
       size_t& offset, 
       size_t& varHeaderLength
-    ) override;
+    );
     
     /**
      * @brief Encodes the variable header of this packet to a byte array
-     * @param varHeaderBytes The array of bytes which is used in making the final result
      * @returns A byte array of the header
      */
     std::vector<uint8_t> encode() override;

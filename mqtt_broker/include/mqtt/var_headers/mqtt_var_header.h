@@ -18,26 +18,10 @@ class MQTTVarHeader
     virtual ~MQTTVarHeader() = default;
 
     /**
-     * @brief Decodes the MQTT variable header from a byte array
-     * @param data The byte array of the packet
-     * @param fixedHeader The fixed header of this packet
-     * @param offset The current offset of bytes
-     * @param varHeaderLength The length of bytes the header is in total
-     * @returns An unique pointer to the `MQTTVarHeader` of this packet
-     */
-    virtual std::unique_ptr<MQTTVarHeader> decode(
-      const std::vector<uint8_t>& data,
-      const MQTTFixedHeader& fixedHeader,
-      size_t& offset, 
-      size_t& varHeaderLength
-    );
-    
-    /**
      * @brief Encodes the variable header of this packet to a byte array
-     * @param varHeaderBytes The array of bytes which is used in making the final result
      * @returns A byte array of the header
      */
-    virtual std::vector<uint8_t> encode();
+    virtual std::vector<uint8_t> encode() = 0;
 };
 
 

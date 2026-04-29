@@ -149,56 +149,16 @@ std::unique_ptr<MQTTPacket> MQTTPacket::parse(const std::vector<uint8_t>& data)
 
   std::unique_ptr<MQTTVarHeader> varHeader = nullptr;
   size_t varHeaderLength = 0;
-
   size_t offset = 1 + lengthBytesRead;
 
-  switch (fixedHeader.getType())
+  auto it = DECODER_MAP.find(fixedHeader.getType());
+  if (it != DECODER_MAP.end())
   {
-    case Publish:
+    varHeader = it->second(data, fixedHeader, offset, varHeaderLength);
+    if (!varHeader)
     {
-      varHeader = decodePublishVarHeader(data, fixedHeader, offset, varHeaderLength);
-      if (!varHeader)
-      {
-        // Return if the variable header is a nullptr
-        return nullptr;
-      }
-
-      break;
+      return nullptr;
     }
-
-    case Connect:
-    {
-      varHeader = decodeConnectVarHeader(data, fixedHeader, offset, varHeaderLength);
-      if (!varHeader)
-      {
-        // Also return nullptr here because no variable header
-        return nullptr;
-      }
-
-      break; 
-    }
-
-    case Puback:
-    case Pubrec:
-    case Pubrel:
-    case Pubcomp:
-    case Subscribe:
-    case Suback:
-    case Unsubscribe:
-    case Unsuback:
-    {
-      varHeader = decodePacketIdVarHeader(data, offset, varHeaderLength);
-      if (!varHeader)
-      {
-        return nullptr;
-      }
-      
-      break;
-    }
-    
-    default:
-      varHeaderLength = 0;
-      break;
   }
 
   size_t payloadStart = 1 + lengthBytesRead + varHeaderLength;

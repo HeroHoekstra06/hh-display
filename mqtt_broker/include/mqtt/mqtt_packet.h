@@ -2,10 +2,32 @@
 #define MQTT_PACKET_H
 
 #include <memory>
+#include <functional>
 
 #include "mqtt/mqtt_fixed_header.h"
 #include "mqtt/var_headers.h"
 #include "mqtt/mqtt_body.h"
+
+
+using DecodeFunc = std::function<std::unique_ptr<MQTTVarHeader>(
+  const std::vector<uint8_t>&,
+  const MQTTFixedHeader&,
+  size_t&,
+  size_t&
+)>;
+
+static const std::unordered_map<MQTTHeaderType, DecodeFunc> DECODER_MAP{
+  { Publish, MQTTPublishVarHeader::decode },
+  { Connect, MQTTConnectVarHeader::decode },
+  { Puback, MQTTPacketIdVarHeader::decode },
+  { Pubrec, MQTTPacketIdVarHeader::decode },
+  { Pubrel, MQTTPacketIdVarHeader::decode },
+  { Pubcomp, MQTTPacketIdVarHeader::decode },
+  { Subscribe, MQTTPacketIdVarHeader::decode },
+  { Suback, MQTTPacketIdVarHeader::decode },
+  { Unsubscribe, MQTTPacketIdVarHeader::decode },
+  { Unsuback, MQTTPacketIdVarHeader::decode }
+};
 
 
 class MQTTPacket

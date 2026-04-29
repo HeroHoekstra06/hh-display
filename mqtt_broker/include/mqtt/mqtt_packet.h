@@ -38,6 +38,21 @@ class MQTTPacket
       size_t& varHeaderLength
     );
 
+    /**
+     * @brief Decodes the connect variable header
+     * @param data The byte array of the packet
+     * @param fixedHeader The fixed header of this packet
+     * @param offset The current offset of bytes
+     * @param varHeaderLength The length of bytes the header is in total
+     * @returns A unique pointer to the `MQTTConnectVarHeader` of this packet
+     */
+    static std::unique_ptr<MQTTConnectVarHeader> decodeConnectVarHeader(
+      const std::vector<uint8_t>& data, 
+      const MQTTFixedHeader& fixedHeader, 
+      size_t& offset, 
+      size_t& varHeaderLength
+    );
+
   public:
     /**
      * @brief Constructs an empty packet with only a header

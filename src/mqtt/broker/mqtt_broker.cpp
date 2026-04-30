@@ -56,6 +56,7 @@ void MQTTBroker::removeClient(int clientId)
 }
 
 
+// Responses
 void MQTTBroker::connectResponse(int clientId, std::unique_ptr<MQTTPacket> packet)
 {
   // Right now, we are not checking for any authentication (e.g. password and username, auth, protocol, etc.)
@@ -84,12 +85,13 @@ void MQTTBroker::onDataRecieved(int clientId, const std::vector<uint8_t>& data)
       break;
     }
 
+    case Disconnect:
     case Connack:
     case Suback:
     case Unsuback:
     case Pingresp:
     {
-      // These are all responses only a broker should send
+      // These are all responses only a broker should send (except `Disconnect`)
       // Since we are the broker, according to official specs, we should drop the client
       removeClient(clientId);
       break;

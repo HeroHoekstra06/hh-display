@@ -37,7 +37,6 @@ class MQTTBroker : public MQTTNode
     // Responses
     void connectResponse(int clientId, std::unique_ptr<MQTTPacket> packet);
 
-
   public:
     /**
      * @brief Constructs an MQTTBroker, which is just a fancy MQTTNode

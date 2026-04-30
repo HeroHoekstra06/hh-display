@@ -32,6 +32,16 @@ void MQTTBroker::addClient(const MQTTClient& client)
 }
 
 
+void MQTTBroker::removeClient(int clientId)
+{
+  auto it = m_clients.find(clientId);
+  if (it != m_clients.end())
+  {
+    m_clients.erase(it);
+  }
+}
+
+
 void MQTTBroker::connectResponse(int clientId, std::unique_ptr<MQTTPacket> packet)
 {
   uint8_t code = 0x00;

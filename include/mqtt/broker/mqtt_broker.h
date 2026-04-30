@@ -27,6 +27,12 @@ class MQTTBroker : public MQTTNode
      * @param client The client to be added
      */
     void addClient(const MQTTClient& client);
+
+    /**
+     * @brief Removes a client by id
+     * @param clientId The client to be removed
+     */
+    void removeClient(int clientId);
     
     // Responses
     void connectResponse(int clientId, std::unique_ptr<MQTTPacket> packet);

@@ -5,5 +5,6 @@
 
 bool MQTTClient::sendPacket(MQTTPacket packet)
 {
-  return false;
+  std::vector<uint8_t> rawPacket = packet.serialize();
+  return NETWORK_MANAGER.sendData(m_clientId, rawPacket);
 }

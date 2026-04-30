@@ -1,7 +1,7 @@
 #ifndef MQTT_CONNACK_VAR_HEADER
 #define MQTT_CONNACK_VAR_HEADER
 
-#include "mqtt/var_headers/mqtt_var_header.h"
+#include "mqtt/packet/var_headers/mqtt_var_header.h"
 
 
 class MQTTConnackVarHeader : public MQTTVarHeader

@@ -5,9 +5,9 @@
 #include <unordered_map>
 #include <functional>
 
-#include "mqtt/mqtt_fixed_header.h"
-#include "mqtt/var_headers.h"
-#include "mqtt/mqtt_body.h"
+#include "mqtt/packet/mqtt_fixed_header.h"
+#include "mqtt/packet/var_headers.h"
+#include "mqtt/packet/mqtt_body.h"
 
 
 using DecodeFunc = std::function<std::unique_ptr<MQTTVarHeader>(

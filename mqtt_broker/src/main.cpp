@@ -1,5 +1,5 @@
 #include "network/network_manager.h"
-#include "mqtt/mqtt_packet.h"
+#include "mqtt/packet/mqtt_packet.h"
 
 #define NETWORK_MANAGER NetworkManager::getInstance()
 

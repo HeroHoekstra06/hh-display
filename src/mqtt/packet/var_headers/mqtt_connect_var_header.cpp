@@ -1,4 +1,4 @@
-#include "mqtt/var_headers/mqtt_connect_var_header.h"
+#include "mqtt/packet/var_headers/mqtt_connect_var_header.h"
 
 
 std::unique_ptr<MQTTVarHeader> MQTTConnectVarHeader::decode(

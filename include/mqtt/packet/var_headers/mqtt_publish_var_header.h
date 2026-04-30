@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <string>
 
-#include "mqtt/var_headers/mqtt_var_header.h"
+#include "mqtt/packet/var_headers/mqtt_var_header.h"
 
 
 class MQTTPublishVarHeader : public MQTTVarHeader

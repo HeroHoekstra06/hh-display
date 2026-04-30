@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 
-#include "mqtt/mqtt_fixed_header.h"
+#include "mqtt/packet/mqtt_fixed_header.h"
 
 
 /**

@@ -14,13 +14,13 @@ add_executable(
   ${SRC}/network/network_manager.cpp
 
   # MQTT
-  ${MAIN_SRC}/mqtt/mqtt_fixed_header.cpp
-  ${MAIN_SRC}/mqtt/mqtt_packet.cpp
+  ${MAIN_SRC}/mqtt/packet/mqtt_fixed_header.cpp
+  ${MAIN_SRC}/mqtt/packet/mqtt_packet.cpp
 
-  ${MAIN_SRC}/mqtt/var_headers/mqtt_connack_var_header.cpp
-  ${MAIN_SRC}/mqtt/var_headers/mqtt_connect_var_header.cpp
-  ${MAIN_SRC}/mqtt/var_headers/mqtt_packetid_var_header.cpp
-  ${MAIN_SRC}/mqtt/var_headers/mqtt_publish_var_header.cpp
+  ${MAIN_SRC}/mqtt/packet/var_headers/mqtt_connack_var_header.cpp
+  ${MAIN_SRC}/mqtt/packet/var_headers/mqtt_connect_var_header.cpp
+  ${MAIN_SRC}/mqtt/packet/var_headers/mqtt_packetid_var_header.cpp
+  ${MAIN_SRC}/mqtt/packet/var_headers/mqtt_publish_var_header.cpp
 )
 
 target_include_directories(mqtt_broker PRIVATE ${INC} ${MAIN_INC})

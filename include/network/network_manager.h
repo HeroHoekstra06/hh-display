@@ -36,7 +36,6 @@ class NetworkManager
     void serverLoop();
     void acceptNewClient();
     void handleClientData(size_t poll_index);
-    void removeClient();
 
 
     /**
@@ -98,6 +97,12 @@ class NetworkManager
      * @returns If the data was successfully send
      */
     bool sendData(int client_fd, const std::vector<uint8_t>& data);
+
+    /**
+     * @brief Forcefully disconnects a client and removes them from the polling list
+     * @param client_fd The file descriptor of the client to remove
+     */
+    void removeClient(int client_fd);
 
 
     // Getters

@@ -73,6 +73,21 @@ bool NetworkManager::sendData(int client_fd, const std::vector<uint8_t>& data)
   return bytes_sent == static_cast<ssize_t>(data.size());
 }
 
+void NetworkManager::removeClient(int client_fd)
+{
+  std::lock_guard<std::mutex> lock(m_clients_mutex);
+
+  auto it = std::find_if(m_poll_fds.begin(), m_poll_fds.end(),
+                         [client_fd](const struct pollfd& pfd) { return pfd.fd == client_fd; });
+  
+  if (it != m_poll_fds.end() && client_fd != m_server_fd)
+  {
+    std::cout << "Force dropping client FD: '" << client_fd << "'" << std::endl;
+    close(client_fd);
+    m_poll_fds.erase(it);
+  }
+}
+
 
 // Private
 void NetworkManager::serverLoop()

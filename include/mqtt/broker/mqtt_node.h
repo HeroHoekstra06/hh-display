@@ -7,7 +7,7 @@
 
 class MQTTNode
 {
-  private:
+  protected:
     std::string m_topicString;                              /// The name of this topic
     std::unordered_map<std::string, MQTTNode> m_children;   /// The child nodes of this node
 

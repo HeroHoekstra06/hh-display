@@ -27,6 +27,13 @@ class MQTTNode
     : m_topicString(topicString), m_children({}), m_subscribers({})
     {}
 
+
+    /**
+     * @brief Adds a client to be informed of all updates to this topic
+     * @param client The shared pointer to add
+    */
+    void subscribe(std::shared_ptr<MQTTClient> client);
+
 };
 
 

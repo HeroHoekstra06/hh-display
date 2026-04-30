@@ -68,6 +68,35 @@ void MQTTBroker::connectResponse(int clientId, std::unique_ptr<MQTTPacket> packe
 }
 
 
+void MQTTBroker::subscribeResponse(int clientId, std::unique_ptr<MQTTPacket> packet)
+{
+  auto it = m_clients.find(clientId);
+  if (it == m_clients.end()) return;
+  std::shared_ptr<MQTTClient> client = it->second;
+
+  auto& varBase = packet->getVarHeader();
+  auto* idHeader = static_cast<MQTTPacketIdVarHeader*>(varBase.get());
+  uint16_t packetId = idHeader->getPacketId();
+
+  std::string topic = packet->getBody().getString();
+
+  MQTTNode& node = const_cast<MQTTNode&>(getNode(topic));
+  node.subscribe(client);
+
+  // Create response packet
+  // TODO: fix the subscribe return codes
+  std::vector<uint8_t> returnCodes{0x00};
+
+  MQTTFixedHeader fixedHeader{0x90, Suback};
+  auto varHeader = std::make_unique<MQTTPacketIdVarHeader>(packetId);
+  MQTTBody body{returnCodes};
+  
+  MQTTPacket suback{fixedHeader, std::move(varHeader), std::move(body)};
+
+  NETWORK_MANAGER.sendData(clientId, suback.serialize());
+}
+
+
 // Public
 void MQTTBroker::onDataRecieved(int clientId, const std::vector<uint8_t>& data)
 {
@@ -83,6 +112,11 @@ void MQTTBroker::onDataRecieved(int clientId, const std::vector<uint8_t>& data)
     {
       connectResponse(clientId, std::move(packet));
       break;
+    }
+
+    case Subscribe:
+    {
+      
     }
 
     case Disconnect:

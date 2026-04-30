@@ -11,7 +11,7 @@ std::vector<std::string> MQTTBroker::splitPath(const std::string& path)
   {
     if (c == '/')
     {
-      result.push_back(buffer);
+      if (!buffer.empty()) result.push_back(buffer);
       buffer = "";
     }
     else
@@ -20,6 +20,7 @@ std::vector<std::string> MQTTBroker::splitPath(const std::string& path)
     }
   }
 
+  if (!buffer.empty()) result.push_back(buffer);
   return result;
 }
 
@@ -27,4 +28,21 @@ std::vector<std::string> MQTTBroker::splitPath(const std::string& path)
 // Public
 const MQTTNode& MQTTBroker::getNode(const std::string& topicPath)
 {
+  std::vector<std::string> nodeNames = splitPath(topicPath);
+
+  MQTTNode* currentNode = this;
+  for (const std::string& nodeName: nodeNames)
+  {
+    auto it = currentNode->m_children.find(nodeName);
+
+    if (it == currentNode->m_children.end())
+    {
+      auto result = currentNode->m_children.emplace(nodeName, MQTTNode(nodeName));
+      it = result.first;
+    }
+    
+    currentNode = &(it->second);
+  }
+
+  return *currentNode;
 }

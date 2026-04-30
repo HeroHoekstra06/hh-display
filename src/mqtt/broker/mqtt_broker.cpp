@@ -25,6 +25,28 @@ std::vector<std::string> MQTTBroker::splitPath(const std::string& path)
 }
 
 
+void MQTTBroker::addClient(const MQTTClient& client)
+{
+  auto sharedClient = std::make_shared<MQTTClient>(client);
+  m_clients.emplace(client.getClientId(), std::move(sharedClient));
+}
+
+
+void MQTTBroker::connectResponse(int clientId, std::unique_ptr<MQTTPacket> packet)
+{
+  uint8_t code = 0x00;
+  uint8_t sessionPresent = 0;
+
+  MQTTFixedHeader fixedHeader{0x20, Connack};
+  auto varHeader = std::make_unique<MQTTConnackVarHeader>(code, sessionPresent);
+  MQTTBody body;
+
+  MQTTPacket returnPacket{fixedHeader, std::move(varHeader), std::move(body)};
+  auto rawPacket = returnPacket.serialize();
+  NETWORK_MANAGER.sendData(clientId, rawPacket);
+}
+
+
 // Public
 void MQTTBroker::onDataRecieved(int clientId, const std::vector<uint8_t>& data)
 {
@@ -36,6 +58,12 @@ void MQTTBroker::onDataRecieved(int clientId, const std::vector<uint8_t>& data)
 
   switch (packet->getFixedHeader().getType())
   {
+    case Connect:
+    {
+      connectResponse(clientId, std::move(packet));
+      break;
+    }
+
     case Connack:
     case Suback:
     case Unsuback:
@@ -44,6 +72,7 @@ void MQTTBroker::onDataRecieved(int clientId, const std::vector<uint8_t>& data)
       // These are all responses only a broker should send
       // Since we are the broker, according to official specs, we should drop the client
       NETWORK_MANAGER.removeClient(clientId);
+      break;
     }
 
     default:

@@ -1,6 +1,7 @@
 #ifndef MQTT_NODE_H
 #define MQTT_NODE_H
 
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -14,7 +15,7 @@ class MQTTNode
   protected:
     std::string m_topicString;                              /// The name of this topic
     std::unordered_map<std::string, MQTTNode> m_children;   /// The child nodes of this node
-    std::vector<MQTTClient*> m_subscribers;                 /// All clients who are subscribed this node
+    std::vector<std::weak_ptr<MQTTClient>> m_subscribers;   /// All clients who are subscribed this node
 
   public:
     /**

@@ -13,7 +13,7 @@
 class MQTTClient
 {
   private:
-    uint16_t m_clientId;        /// The client ID according to the network manager
+    int m_clientId;        /// The client ID according to the network manager
     std::string m_clientName;   /// The client ID according to the client
 
   public:
@@ -22,12 +22,17 @@ class MQTTClient
      * @param clientName The id the client has given us
      * @param clientId The id assigned by the network manager
      */
-    MQTTClient(const std::string& clientName, uint16_t clientId)
+    MQTTClient(const std::string& clientName, int clientId)
     : m_clientId(clientId), m_clientName(std::move(clientName))
     {}
 
 
     bool sendPacket(MQTTPacket packet);
+
+
+    // Getters
+    /// @returns The id of the client
+    int getClientId() const { return m_clientId; }
 
 };
 

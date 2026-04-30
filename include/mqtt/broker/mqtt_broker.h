@@ -14,8 +14,23 @@ class MQTTBroker : public MQTTNode
   private:
     std::unordered_map<int, std::shared_ptr<MQTTClient>> m_clients;    /// All clients who are currently connected
 
+
+    /**
+     * @brief Splits a string into a string array
+     * @param path The raw string path
+     * @returns The path to a nod, where each node is split by a '/'
+     */
     std::vector<std::string> splitPath(const std::string& path);
+
+    /**
+     * @brief Adds a new client to the client list
+     * @param client The client to be added
+     */
+    void addClient(const MQTTClient& client);
     
+    // Responses
+    void connectResponse(int clientId, std::unique_ptr<MQTTPacket> packet);
+
 
   public:
     /**

@@ -1,6 +1,8 @@
 #ifndef MQTT_BROKER_H
 #define MQTT_BROKER_H
 
+#include <string>
+#include <vector>
 #include <unordered_map>
 
 #include "mqtt/broker/mqtt_node.h"
@@ -9,6 +11,7 @@
 class MQTTBroker : public MQTTNode
 {
   private:
+    std::vector<std::string> splitPath(const std::string& path);
     
 
   public:

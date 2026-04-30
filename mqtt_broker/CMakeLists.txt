@@ -11,7 +11,7 @@ add_executable(
   ${SRC}/main.cpp
 
   # Network
-  ${SRC}/network/network_manager.cpp
+  ${MAIN_SRC}/network/network_manager.cpp
 
   # MQTT
   ${MAIN_SRC}/mqtt/packet/mqtt_fixed_header.cpp

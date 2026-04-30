@@ -26,7 +26,7 @@ std::vector<std::string> MQTTBroker::splitPath(const std::string& path)
 
 
 // Public
-void MQTTBroker::onDataRecieved(uint16_t clientId, const std::vector<uint8_t>& data)
+void MQTTBroker::onDataRecieved(int clientId, const std::vector<uint8_t>& data)
 {
   std::unique_ptr<MQTTPacket> packet = MQTTPacket::parse(data);
   if (!packet)
@@ -36,6 +36,16 @@ void MQTTBroker::onDataRecieved(uint16_t clientId, const std::vector<uint8_t>& d
 
   switch (packet->getFixedHeader().getType())
   {
+    case Connack:
+    case Suback:
+    case Unsuback:
+    case Pingresp:
+    {
+      // These are all responses only a broker should send
+      // Since we are the broker, according to official specs, we should drop the client
+      NETWORK_MANAGER.removeClient(clientId);
+    }
+
     default:
       return;
   }

@@ -1,6 +1,7 @@
 #ifndef MQTT_BROKER_H
 #define MQTT_BROKER_H
 
+#include <memory>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -11,6 +12,8 @@
 class MQTTBroker : public MQTTNode
 {
   private:
+    std::unordered_map<int, std::shared_ptr<MQTTClient>> m_clients;    /// All clients who are currently connected
+
     std::vector<std::string> splitPath(const std::string& path);
     
 
@@ -28,7 +31,7 @@ class MQTTBroker : public MQTTNode
      * @param clientId The id of the client who send the packet
      * @param data The data as a byte array
      */
-    void onDataRecieved(uint16_t clientId, const std::vector<uint8_t>& data);
+    void onDataRecieved(int clientId, const std::vector<uint8_t>& data);
 
     /**
      * @brief Gets or creates an MQTT topic

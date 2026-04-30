@@ -11,7 +11,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
-#include <poll.h>
+#include <sys/poll.h>
 
 
 using DataCallback = std::function<void(int client_fd, const std::vector<uint8_t>& data)>;

@@ -1,5 +1,7 @@
 #include "mqtt/packet/var_headers/mqtt_publish_var_header.h"
 
+#include <memory>
+
 
 std::unique_ptr<MQTTVarHeader> MQTTPublishVarHeader::decode(
   const std::vector<uint8_t>& data,

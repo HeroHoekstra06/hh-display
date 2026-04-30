@@ -4,7 +4,10 @@
 #include <stdint.h>
 #include <string>
 
-#include <mqtt/packet/mqtt_packet.h>
+#include "mqtt/packet/mqtt_packet.h"
+#include "network/network_manager.h"
+
+#define NETWORK_MANAGER NetworkManager::getInstance()
 
 
 class MQTTClient
@@ -24,7 +27,7 @@ class MQTTClient
     {}
 
 
-    bool sendPacket(const MQTTPacket& packet);
+    bool sendPacket(MQTTPacket packet);
 
 };
 

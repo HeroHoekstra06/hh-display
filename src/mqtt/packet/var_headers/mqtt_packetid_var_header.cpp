@@ -1,5 +1,7 @@
 #include "mqtt/packet/var_headers/mqtt_packetid_var_header.h"
 
+#include <memory>
+
 
 std::unique_ptr<MQTTVarHeader> MQTTPacketIdVarHeader::decode(
   const std::vector<uint8_t>& data,

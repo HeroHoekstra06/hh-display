@@ -39,6 +39,8 @@ void MQTTBroker::removeClient(int clientId)
   {
     m_clients.erase(it);
   }
+
+  NETWORK_MANAGER.removeClient(clientId);
 }
 
 

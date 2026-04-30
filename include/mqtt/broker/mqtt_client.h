@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <string>
 
+#include <mqtt/packet/mqtt_packet.h>
+
 
 class MQTTClient
 {
@@ -20,6 +22,9 @@ class MQTTClient
     MQTTClient(const std::string& clientName, uint16_t clientId)
     : m_clientId(clientId), m_clientName(std::move(clientName))
     {}
+
+
+    bool sendPacket(const MQTTPacket& packet);
 
 };
 

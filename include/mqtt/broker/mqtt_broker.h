@@ -24,7 +24,14 @@ class MQTTBroker : public MQTTNode
 
 
     /**
-     * @brief Gets a topic node according to the topic path
+     * @brief Handles and call functions according to the packet recieved
+     * @param clientId The id of the client who send the packet
+     * @param data The data as a byte array
+     */
+    void onDataRecieved(uint16_t clientId, const std::vector<uint8_t>& data);
+
+    /**
+     * @brief Gets or creates an MQTT topic
      * @param topicPath The path to the topic. Nodes are sepperated by '/'.
      * @returns The MQTTNode which contains the clients subscribed (directly and indirectly)
      */

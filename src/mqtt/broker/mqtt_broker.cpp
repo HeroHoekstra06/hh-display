@@ -26,6 +26,22 @@ std::vector<std::string> MQTTBroker::splitPath(const std::string& path)
 
 
 // Public
+void MQTTBroker::onDataRecieved(uint16_t clientId, const std::vector<uint8_t>& data)
+{
+  std::unique_ptr<MQTTPacket> packet = MQTTPacket::parse(data);
+  if (!packet)
+  {
+    return;
+  }
+
+  switch (packet->getFixedHeader().getType())
+  {
+    default:
+      return;
+  }
+}
+
+
 const MQTTNode& MQTTBroker::getNode(const std::string& topicPath)
 {
   std::vector<std::string> nodeNames = splitPath(topicPath);

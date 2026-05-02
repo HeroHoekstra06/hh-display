@@ -51,7 +51,9 @@ class MQTTPacket
   public:
     /**
      * @brief Constructs an empty packet with only a header
-     * @param header an `MQTTHeader` to give information about the packet
+     * @param fixedHeader The fixed header of the packet
+     * @param varHeader The variable header of the packet
+     * @param body The main payload of the packet
      */
     MQTTPacket(MQTTFixedHeader fixedHeader, std::unique_ptr<MQTTVarHeader> varHeader, MQTTBody body)
     : m_fixedHeader(fixedHeader), m_varHeader(std::move(varHeader)), m_body(std::move(body))

@@ -116,7 +116,8 @@ void MQTTBroker::onDataRecieved(int clientId, const std::vector<uint8_t>& data)
 
     case Subscribe:
     {
-      
+      subscribeResponse(clientId, std::move(packet));
+      break;
     }
 
     case Disconnect:

@@ -75,7 +75,7 @@ class MQTTConnectVarHeader : public MQTTVarHeader
 
     // Getter helpers
     /// @returns The reserve bit of the flags
-    /// @note This will literally always be 0. This function is 100% useless
+    /// @note This will literally always be 0. This function is 100% useless. If you want to call this function just do `x = 0`. It will have the same effect.
     uint8_t getReserved() { return m_connectFlags.reserved; }
 
     /// @returns If this is a new, clean session

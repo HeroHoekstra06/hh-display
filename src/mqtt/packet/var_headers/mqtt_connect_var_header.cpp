@@ -31,6 +31,7 @@ std::unique_ptr<MQTTVarHeader> MQTTConnectVarHeader::decode(
   uint8_t level = data[offset++];
   uint8_t flags = data[offset++];
   uint16_t keepAlive = (data[offset] << 8 | data[offset + 1]);
+  offset += 2;
 
   varHeaderLength = 2 + protoLen + 4;
   return std::make_unique<MQTTConnectVarHeader>(flags, keepAlive, level);
@@ -48,7 +49,7 @@ std::vector<uint8_t> MQTTConnectVarHeader::encode()
   for (char c : protocolName) result.push_back(c);
 
   result.push_back(4);
-  result.push_back(static_cast<uint8_t>(getFlags()));
+  result.push_back(getFlags());
 
   uint16_t keepAlive = getKeepAlive();
   result.push_back((keepAlive >> 8) & 0xFF);

@@ -12,8 +12,23 @@ class MQTTConnectVarHeader : public MQTTVarHeader
   private:
     std::string m_protocolName; /// The name of the protocol
     uint8_t m_protocolLevel;    /// The version of the protocol
-    uint8_t m_connectFlags;     /// Single byte containing the username, password, will retain, will QOS, will flag and clean session
     uint16_t m_keepAlive;       /// A 16-bit timer telling the broker how long to wait before dropping the packet
+
+    union
+    {
+      uint8_t raw;
+      struct
+      {
+        uint8_t reserved : 1;       /// A reserved bit. Is always 0
+        uint8_t cleanSession: 1;    /// Is this client new, or should it continue a previous session
+        uint8_t willFlag : 1;       /// Will the client leave a will upon unplanned disconnection
+        uint8_t willQoS : 2;        /// The QoS for the will message
+        uint8_t willRetain : 1;     /// If the will is retained by the broker
+        uint8_t passwordFlag : 1;   /// If 1, a password must be included in the payload
+        uint8_t usernameFlag : 1;   /// If 1, a username must be included in the payload
+      };
+    } m_connectFlags;
+    
 
   public:
     /**
@@ -23,8 +38,10 @@ class MQTTConnectVarHeader : public MQTTVarHeader
      * @param level The version of the protocol used
     */
     MQTTConnectVarHeader(uint8_t flags, uint16_t keepAlive, uint8_t level = 4)
-    : m_protocolName("MQTT"), m_protocolLevel(level), m_connectFlags(flags), m_keepAlive(keepAlive)
-    {}
+    : m_protocolName("MQTT"), m_protocolLevel(level), m_keepAlive(keepAlive)
+    {
+      m_connectFlags.raw = flags;
+    }
 
 
     /**
@@ -51,7 +68,7 @@ class MQTTConnectVarHeader : public MQTTVarHeader
 
     // Getters
     /// @returns Single byte containing the username, password, will retain, will QOS, will flag and clean session
-    uint16_t getFlags() { return m_connectFlags; }
+    uint8_t getFlags() { return m_connectFlags.raw; }
 
     /// @returns 16-bit timer telling the broker how long to wait before dropping the packet
     uint16_t getKeepAlive() { return m_keepAlive; }

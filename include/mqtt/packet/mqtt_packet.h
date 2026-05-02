@@ -34,7 +34,7 @@ static const std::unordered_map<MQTTHeaderType, DecodeFunc> DECODER_MAP{
 
 class MQTTPacket
 {
-  private:
+  protected:
     MQTTFixedHeader m_fixedHeader;                /// Metadata from the packet which says what protocol to use
     std::unique_ptr<MQTTVarHeader> m_varHeader;   /// Metadata from the packet how to interperet data
     MQTTBody m_body;                              /// The actual data from the packet

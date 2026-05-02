@@ -82,19 +82,19 @@ class MQTTConnectVarHeader : public MQTTVarHeader
     uint8_t getCleanSession() { return m_connectFlags.cleanSession; }
 
     /// @returns Does this connect packet have will
-    uint8_t getWillFlag() { m_connectFlags.willFlag; }
+    uint8_t getWillFlag() { return m_connectFlags.willFlag; }
 
     /// @returns When sending the will, which QoS should it have?
-    uint8_t getWillQos() { m_connectFlags.willQoS; }
+    uint8_t getWillQos() { return m_connectFlags.willQoS; }
 
     /// @returns If the will should be retained after sending
-    uint8_t getWillRetain() { m_connectFlags.willRetain; } 
+    uint8_t getWillRetain() { return m_connectFlags.willRetain; } 
 
     /// @returns If the payload contains a password
-    uint8_t getPasswordFlag() { m_connectFlags.passwordFlag; } 
+    uint8_t getPasswordFlag() { return m_connectFlags.passwordFlag; } 
 
     /// @return If the payload contains an username
-    uint8_t getUsernameFlag() { m_connectFlags.usernameFlag; }
+    uint8_t getUsernameFlag() { return m_connectFlags.usernameFlag; }
 
 
     // Setters

@@ -73,6 +73,29 @@ class MQTTConnectVarHeader : public MQTTVarHeader
     /// @returns 16-bit timer telling the broker how long to wait before dropping the packet
     uint16_t getKeepAlive() { return m_keepAlive; }
 
+    // Getter helpers
+    /// @returns The reserve bit of the flags
+    /// @note This will literally always be 0. This function is 100% useless
+    uint8_t getReserved() { return m_connectFlags.reserved; }
+
+    /// @returns If this is a new, clean session
+    uint8_t getCleanSession() { return m_connectFlags.cleanSession; }
+
+    /// @returns Does this connect packet have will
+    uint8_t getWillFlag() { m_connectFlags.willFlag; }
+
+    /// @returns When sending the will, which QoS should it have?
+    uint8_t getWillQos() { m_connectFlags.willQoS; }
+
+    /// @returns If the will should be retained after sending
+    uint8_t getWillRetain() { m_connectFlags.willRetain; } 
+
+    /// @returns If the payload contains a password
+    uint8_t getPasswordFlag() { m_connectFlags.passwordFlag; } 
+
+    /// @return If the payload contains an username
+    uint8_t getUsernameFlag() { m_connectFlags.usernameFlag; } 
+
 };
 
 

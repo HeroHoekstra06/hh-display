@@ -94,7 +94,26 @@ class MQTTConnectVarHeader : public MQTTVarHeader
     uint8_t getPasswordFlag() { m_connectFlags.passwordFlag; } 
 
     /// @return If the payload contains an username
-    uint8_t getUsernameFlag() { m_connectFlags.usernameFlag; } 
+    uint8_t getUsernameFlag() { m_connectFlags.usernameFlag; }
+
+
+    // Setters
+    /// @param cleanSession If this is a new or old session
+    void setCleanSession(bool cleanSession) { m_connectFlags.cleanSession = cleanSession; }
+
+    /// @param willFlag If this packet has a will
+    void setWillFlag(bool willFlag) { m_connectFlags.willFlag = willFlag; } 
+
+    /// @param willQoS If and what QoS the will has
+    void setWillQoS(uint8_t willQoS) { m_connectFlags.willQoS = willQoS; }
+
+    /// @param willRetain If the will should be retained
+    void setWillRetain(bool willRetain) { m_connectFlags.willRetain = willRetain; }
+
+    /// @param passwordFlag if the payload contains a password
+    void setPasswordFlag(bool passwordFlag) { m_connectFlags.passwordFlag = passwordFlag; }
+
+    void setUsernameFlag(bool usernameFlag) { m_connectFlags.usernameFlag = usernameFlag; }
 
 };
 

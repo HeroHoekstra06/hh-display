@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <stdint.h>
-#include <iostream>
 
 
 class MQTTBody
@@ -28,7 +27,6 @@ class MQTTBody
     {
       for (uint8_t byte : payload)
       {
-        std::cout << byte << std::endl;
         m_bodyString += static_cast<char>(byte);
       }
     }

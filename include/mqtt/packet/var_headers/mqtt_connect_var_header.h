@@ -67,6 +67,7 @@ class MQTTConnectVarHeader : public MQTTVarHeader
 
 
     // Getters
+
     /// @returns Single byte containing the username, password, will retain, will QOS, will flag and clean session
     uint8_t getFlags() { return m_connectFlags.raw; }
 
@@ -74,6 +75,7 @@ class MQTTConnectVarHeader : public MQTTVarHeader
     uint16_t getKeepAlive() { return m_keepAlive; }
 
     // Getter helpers
+
     /// @returns The reserve bit of the flags
     /// @note This will literally always be 0. This function is 100% useless. If you want to call this function just do `x = 0`. It will have the same effect.
     uint8_t getReserved() { return m_connectFlags.reserved; }
@@ -98,6 +100,7 @@ class MQTTConnectVarHeader : public MQTTVarHeader
 
 
     // Setters
+
     /// @param cleanSession If this is a new or old session
     void setCleanSession(bool cleanSession) { m_connectFlags.cleanSession = cleanSession; }
 
@@ -110,9 +113,10 @@ class MQTTConnectVarHeader : public MQTTVarHeader
     /// @param willRetain If the will should be retained
     void setWillRetain(bool willRetain) { m_connectFlags.willRetain = willRetain; }
 
-    /// @param passwordFlag if the payload contains a password
+    /// @param passwordFlag If the payload contains a password
     void setPasswordFlag(bool passwordFlag) { m_connectFlags.passwordFlag = passwordFlag; }
 
+    /// @param usernameFlag If the client has a username
     void setUsernameFlag(bool usernameFlag) { m_connectFlags.usernameFlag = usernameFlag; }
 
 };

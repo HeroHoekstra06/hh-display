@@ -117,6 +117,58 @@ class MQTTConnect : public MQTTPacket
       m_rawWill = std::vector<uint8_t>(will.begin(), will.end());
     }
 
+
+    // Variable header getters (helpers)
+
+    /// @returns If this is a new, clean session
+    /// @note This is a helper function and will return `getCleanSession()` from this object's variable header
+    uint8_t getCleanSession() { return m_varHeader->getCleanSession(); }
+
+    /// @returns Does this connect packet have will
+    /// @note This is a helper function and will return `getWillFlag()` from this object's variable header
+    uint8_t getWillFlag() { return m_varHeader->getWillFlag(); }
+
+    /// @returns When sending the will, which QoS should it have?
+    /// @note This is a helper function and will return `getWillQos()` from this object's variable header
+    uint8_t getWillQos() { return m_varHeader->getWillQos(); }
+
+    /// @returns If the will should be retained after sending
+    /// @note This is a helper function and will return `getWillRetain()` from this object's variable header
+    uint8_t getWillRetain() { return m_varHeader->getWillRetain(); } 
+
+    /// @returns If the payload contains a password
+    /// @note This is a helper function and will return `getPasswordFlag()` from this object's variable header
+    uint8_t getPasswordFlag() { return m_varHeader->getPasswordFlag(); } 
+
+    /// @return If the payload contains an username
+    /// @note This is a helper function and will return `getUsernameFlag()` from this object's variable header
+    uint8_t getUsernameFlag() { return m_varHeader->getUsernameFlag(); }
+
+    // Variable header setters (helpers)
+
+    /// @param cleanSession If this is a new or old session
+    /// @note This is a helper function and will call `setCleanSession(bool)` from this object's variable header
+    void setCleanSession(bool cleanSession) { m_varHeader->setCleanSession(cleanSession); }
+
+    /// @param willFlag If this packet has a will
+    /// @note This is a helper function and will call `setWillFlag(bool)` from this object's variable header
+    void setWillFlag(bool willFlag) { m_varHeader->setWillFlag(willFlag); } 
+
+    /// @param willQoS If and what QoS the will has
+    /// @note This is a helper function and will call `setWillQos(uint8_t)` from this object's variable header
+    void setWillQoS(uint8_t willQoS) { m_varHeader->setWillQoS(willQoS); }
+
+    /// @param willRetain If the will should be retained
+    /// @note This is a helper function and will call `setWillRetain(bool)` from this object's variable header
+    void setWillRetain(bool willRetain) { m_varHeader->setWillRetain(willRetain); }
+
+    /// @param passwordFlag If the payload contains a password
+    /// @note This is a helper function and will call `setPasswordFlag(bool)` from this object's variable header
+    void setPasswordFlag(bool passwordFlag) { m_varHeader->setPasswordFlag(passwordFlag); }
+
+    /// @param usernameFlag If the client has a username
+    /// @note This is a helper function and will call `setUsernameFlag(bool)` from this object's variable header
+    void setUsernameFlag(bool usernameFlag) { m_varHeader->setUsernameFlag(usernameFlag); }
 };
 
 

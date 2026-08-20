@@ -9,6 +9,16 @@
 class MQTTConnect : public MQTTPacket
 {
   private:
+    std::unique_ptr<MQTTConnectVarHeader> m_varHeader;
+
+    std::string m_clientId;           /// The id of the client whom send the packet
+
+    std::string m_username;           /// The username of the client that send the packet
+    std::string m_password;           /// The password of the client that send the packet
+
+    std::string m_willTopic;          /// The topic the will will be send to
+    std::vector<uint8_t> m_rawWill;   /// The raw bytes of the will
+    std::string m_will;               /// The will as a string
 
   public:
     /**
@@ -39,6 +49,73 @@ class MQTTConnect : public MQTTPacket
      * @returns A unique pointer to a connect packet
      */
     static std::unique_ptr<MQTTConnect> parse(const std::vector<uint8_t>& data);
+
+
+    // Getters
+
+    /// @returns The is of the client
+    const std::string& getClientId() { return m_clientId; }
+
+    /// @returns The username of the client
+    const std::string& getUsername() { return m_username; }
+
+    /// @returns The password the client send
+    const std::string& getPassword() { return m_password; }
+
+    /// @returns The topic the will will be posted to
+    const std::string& getWillTopic() { return m_willTopic; }
+
+    /// @returns The bytes of the will in an array
+    const std::vector<uint8_t>& getRawWill() { return m_rawWill; }
+
+    /// @returns The will as a string
+    const std::string& getWill() { return m_will; }
+
+
+    // Setters
+
+    /// @param id The id of the client
+    void setClientId(const std::string& id) { m_clientId = id; }
+
+    /// @param username The username of the client
+    /// @note Will also set the username flag in the variable header
+    void setUsername(const std::string& username) 
+    { 
+      m_varHeader->setUsernameFlag(username.size() > 0);
+      m_username = username; 
+    }
+
+    /// @param password The password the client has submitted
+    /// @note Will also set the password flag in the variable header
+    void setPassword(const std::string& password) 
+    { 
+      m_varHeader->setPasswordFlag(password.size() > 0);
+      m_password = password; 
+    }
+
+    /// @param willTopic The topic the will message will be send to when client disconnect unexpectedly
+    /// @note Will set the will flag in the variable header IF the will topic is not empty. 
+    /// If this is not set/the string is empty, it is assumed there is no will
+    void setWillTopic(const std::string& willTopic) 
+    {
+      m_varHeader->setWillFlag(!willTopic.empty());
+      m_willTopic = willTopic;
+    }
+
+    /// @param rawWill The raw will as a byte array
+    /// @note Will also set the string will
+    void setRawWill(const std::vector<uint8_t>& rawWill) 
+    {
+      m_rawWill = rawWill;
+      m_will = std::string(rawWill.begin(), rawWill.end());
+    }
+
+    /// @param will The will as a string
+    /// @note Will also set the raw will
+    void setWill(const std::string& will) {
+      m_will = will;
+      m_rawWill = std::vector<uint8_t>(will.begin(), will.end());
+    }
 
 };
 

@@ -169,6 +169,7 @@ class MQTTConnect : public MQTTPacket
     /// @param usernameFlag If the client has a username
     /// @note This is a helper function and will call `setUsernameFlag(bool)` from this object's variable header
     void setUsernameFlag(bool usernameFlag) { m_varHeader->setUsernameFlag(usernameFlag); }
+    
 };
 
 

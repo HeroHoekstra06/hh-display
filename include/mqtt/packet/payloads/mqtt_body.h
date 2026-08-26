@@ -39,8 +39,9 @@ class MQTTBody
     : m_payload(std::move(payload))
     {}
 
-
+    
     // Getters
+
     /// @returns The raw payload
     const std::vector<uint8_t>& getPayload() const { return m_payload; }
 
